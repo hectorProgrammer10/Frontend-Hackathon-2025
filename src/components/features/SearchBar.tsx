@@ -16,7 +16,7 @@ export default function SearchBar({
   initialQuery = '',
   onSearch,
   className = '',
-  placeholder = 'Search movies and series...'
+  placeholder = 'Buscar películas y series...'
 }: SearchBarProps) {
   const [query, setQuery] = useState(initialQuery);
   const router = useRouter();
@@ -56,7 +56,7 @@ export default function SearchBar({
                    hover:scale-105 active:scale-95 shadow-lg shadow-purple-500/20"
           aria-label="Search"
         >
-          <span className="hidden md:block">Search</span>
+          <span className="hidden md:block">Buscar</span>
           <span className="md:hidden text-xl">🔍</span>
         </button>
       </div>

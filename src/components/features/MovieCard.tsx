@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import { useFavorites } from '@/lib/hooks';
+import { Heart } from 'lucide-react';
 
 interface MovieCardProps {
   movie: Movie;
@@ -63,7 +64,7 @@ export default function MovieCard({ movie, variant = 'grid' }: MovieCardProps) {
                   : 'bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:text-white'
                 }`}
             >
-              {favorite ? '❤️ Saved' : '🤍 Save'}
+              {favorite ? <p className='flex gap-2'><Heart size={16} className='fill-red-600 text-red-600'></Heart>Guardado</p> : <p className='flex gap-2'><Heart size={16}></Heart>Guardar</p>}
             </button>
           </div>
         </div>
@@ -98,7 +99,7 @@ export default function MovieCard({ movie, variant = 'grid' }: MovieCardProps) {
                      opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0
                      hover:scale-110 active:scale-95 shadow-lg"
           >
-            <span className="text-xl leading-none">{favorite ? '❤️' : '🤍'}</span>
+            <span className="text-xl leading-none">{favorite ? <Heart size={20} className='text-red-500 fill-red-600'></Heart> : <Heart size={20}></Heart>}</span>
           </button>
         </div>
 

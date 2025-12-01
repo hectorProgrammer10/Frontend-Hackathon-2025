@@ -10,6 +10,7 @@ import Image from 'next/image';
 import TrailerPlayer from '@/components/features/TrailerPlayer';
 import SimilarMovies from '@/components/features/SimilarMovies';
 import ShareButton from '@/components/features/ShareButton';
+import { Circle, Film, Heart, Star, Video, Youtube } from 'lucide-react';
 
 export default function MovieDetailPage() {
   const params = useParams();
@@ -48,7 +49,7 @@ export default function MovieDetailPage() {
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
-          Back to Search
+          Volver a Búsqueda
         </Link>
       </div>
 
@@ -79,8 +80,8 @@ export default function MovieDetailPage() {
                          hover:scale-105 active:scale-95
                          flex items-center justify-center gap-3"
               >
-                <span className="text-2xl">{favorite ? '❤️' : '🤍'}</span>
-                {favorite ? 'Remove from Favorites' : 'Add to Favorites'}
+                <span className="text-2xl">{favorite ? <Heart size={20} className='fill-red-600 text-red-600'></Heart> : <Heart size={20}></Heart>}</span>
+                {favorite ? 'Quitar de Favoritos' : 'Agregar a Favoritos'}
               </button>
 
               {/* Share Button */}
@@ -116,15 +117,15 @@ export default function MovieDetailPage() {
                 {movie.imdbRating && movie.imdbRating !== 'N/A' && (
                   <div className="px-6 py-3 rounded-xl bg-yellow-500/20 border-2 border-yellow-500/50">
                     <div className="text-sm text-yellow-300 font-semibold mb-1">IMDb</div>
-                    <div className="text-2xl font-black text-yellow-400">
-                      ⭐ {movie.imdbRating}
+                    <div className="text-2xl font-black text-yellow-400 flex gap-2 items-center">
+                      <Star size={20}></Star> {movie.imdbRating}
                     </div>
                   </div>
                 )}
                 {movie.Metascore && movie.Metascore !== 'N/A' && (
                   <div className="px-6 py-3 rounded-xl bg-green-500/20 border-2 border-green-500/50">
                     <div className="text-sm text-green-300 font-semibold mb-1">Metascore</div>
-                    <div className="text-2xl font-black text-green-400">{movie.Metascore}</div>
+                    <div className="text-2xl font-black text-green-400 flex gap-2 items-center"><Circle size={20}></Circle> {movie.Metascore}</div>
                   </div>
                 )}
               </div>
@@ -206,7 +207,7 @@ export default function MovieDetailPage() {
             {/* Trailer Section */}
             <div className="space-y-4">
               <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-                <span className="text-3xl">🎥</span> Official Trailer
+                <span className="text-3xl"><Youtube size={28}></Youtube></span> Official Trailer
               </h2>
               <TrailerPlayer title={movie.Title} year={movie.Year} />
             </div>

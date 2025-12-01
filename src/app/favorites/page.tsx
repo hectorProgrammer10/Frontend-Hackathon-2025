@@ -23,20 +23,20 @@ export default function FavoritesPage() {
         {/* Header */}
         <div className="mb-12 text-center">
           <h1 className="text-4xl md:text-5xl font-black text-white mb-4">
-            ❤️ Your Favorites
+            ❤️ Tus Favoritos
           </h1>
           <p className="text-xl text-white/70">
             {favorites.length > 0
-              ? `You have ${favorites.length} favorite ${favorites.length === 1 ? 'item' : 'items'}`
-              : 'Start building your collection'}
+              ? `Tienes ${favorites.length} ${favorites.length === 1 ? 'favorito' : 'favoritos'}`
+              : 'Comienza a crear tu colección'}
           </p>
         </div>
 
         {/* Empty State */}
         {favorites.length === 0 && (
           <EmptyState
-            title="No Favorites Yet"
-            description="Start exploring movies and series to add them to your favorites!"
+            title="Aún No Tienes Favoritos"
+            description="¡Comienza a explorar películas y series para agregarlas a tus favoritos!"
           />
         )}
 

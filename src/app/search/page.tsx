@@ -11,6 +11,7 @@ import Pagination from '@/components/ui/Pagination';
 import { LoadingSkeleton, EmptyState, ErrorMessage } from '@/components/ui/Loading';
 import { useMovieSearch } from '@/lib/hooks';
 import { Filters } from '@/types';
+import { Grid2X2, List } from 'lucide-react';
 
 function SearchContent() {
   const searchParams = useSearchParams();
@@ -146,11 +147,11 @@ function SearchContent() {
             {results && results.Search && results.Search.length > 0 && (
               <div className="flex items-center justify-between mb-6">
                 <p className="text-white/70">
-                  Found <span className="text-white font-bold">{results.totalResults}</span> results
-                  {query && ` for "${query}"`}
+                  Encontrados <span className="text-white font-bold">{results.totalResults}</span> resultados
+                  {query && ` para "${query}"`}
                   {(filters.genre || filters.minRating) && (
                     <span className="ml-2 text-purple-400 text-sm">
-                      (Showing {filteredResults?.length} after filters)
+                      (Mostrando {filteredResults?.length} después de filtros)
                     </span>
                   )}
                 </p>
@@ -162,10 +163,7 @@ function SearchContent() {
                       : 'bg-white/10 text-white/70 hover:bg-white/20'
                       }`}
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                        d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                    </svg>
+                    <Grid2X2 size={20}></Grid2X2>
                   </button>
                   <button
                     onClick={() => setViewMode('list')}
@@ -174,10 +172,7 @@ function SearchContent() {
                       : 'bg-white/10 text-white/70 hover:bg-white/20'
                       }`}
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                        d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
+                    <List size={20}></List>
                   </button>
                 </div>
               </div>
@@ -192,16 +187,16 @@ function SearchContent() {
             {/* Empty State */}
             {!loading && !error && (!results || !results.Search || results.Search.length === 0) && query && (
               <EmptyState
-                title="No Results Found"
-                description={`We couldn't find any ${filters.type || 'content'} matching "${query}". Try adjusting your search or filters.`}
+                title="No se Encontraron Resultados"
+                description={`No pudimos encontrar ningún ${filters.type === 'movie' ? 'película' : filters.type === 'series' ? 'serie' : 'contenido'} que coincida con "${query}". Intenta ajustar tu búsqueda o filtros.`}
               />
             )}
 
             {/* No Search Yet */}
             {!loading && !query && (
               <EmptyState
-                title="Start Your Search"
-                description="Enter a movie or series title in the search bar above to get started."
+                title="Comienza tu Búsqueda"
+                description="Ingresa el título de una película o serie en la barra de búsqueda para comenzar."
               />
             )}
 
