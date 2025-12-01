@@ -1,36 +1,185 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎬 MovieDB - OMDb Movie & Series Explorer
 
-## Getting Started
+A modern, responsive web application built with Next.js 14+ and Tailwind CSS that allows users to search, explore, and save their favorite movies and TV series using the OMDb API.
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-14+-black?style=for-the-badge&logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue?style=for-the-badge&logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0+-38bdf8?style=for-the-badge&logo=tailwind-css)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## ✨ Features
+
+### 🏠 Home Page
+- **Prominent Search Bar** - Quick access to search functionality
+- **Trending Movies** - Curated selection of popular films
+- **Popular Series** - Featured TV shows
+- **Quick Filters** - Genre-based navigation buttons
+- **Modern Design** - Glassmorphism effects and gradient animations
+
+### 🔍 Search Results Page
+- **Advanced Filtering** - Filter by type (movie/series), year
+- **Multiple View Modes** - Toggle between grid and list layouts
+- **Pagination** - Navigate through large result sets
+- **Real-time Results** - Dynamic search with loading states
+- **Error Handling** - Graceful error messages and empty states
+
+### 🎥 Movie/Series Detail Page
+- **Comprehensive Information** - Plot, cast, director, ratings, and more
+- **IMDb & Metascore** - Display ratings from multiple sources
+- **High-Quality Poster** - Full-resolution movie artwork
+- **Add to Favorites** - One-click favorite management
+- **Responsive Layout** - Optimized for all screen sizes
+
+### ❤️ Favorites Page
+- **Persistent Storage** - localStorage integration
+- **Quick Access** - View all saved movies and series
+- **Remove Functionality** - Manage your collection
+- **Empty State** - Helpful prompts for new users
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18.x or higher
+- npm or yarn package manager
+- OMDb API key (get free key at [OMDb API](http://www.omdbapi.com/apikey.aspx))
+
+### Installation
+
+1. **Clone or navigate to the project directory**
+   ```bash
+   cd omdb-movie-app
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Configure environment variables**
+   
+   Create a `.env.local` file in the root directory:
+   ```bash
+   cp env.example .env.local
+   ```
+   
+   Edit `.env.local` and add your OMDb API key:
+   ```env
+   NEXT_PUBLIC_OMDB_API_KEY=your_actual_api_key_here
+   ```
+
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+5. **Open your browser**
+   
+   Navigate to [http://localhost:3000](http://localhost:3000)
+
+## 🏗️ Project Structure
+
+```
+omdb-movie-app/
+├── src/
+│   ├── app/                    # Next.js App Router pages
+│   │   ├── layout.tsx         # Root layout with navigation
+│   │   ├── page.tsx           # Home page
+│   │   ├── search/
+│   │   │   └── page.tsx       # Search results page
+│   │   ├── movie/
+│   │   │   └── [id]/
+│   │   │       └── page.tsx   # Movie/Series detail page
+│   │   └── favorites/
+│   │       └── page.tsx       # Favorites page
+│   ├── components/            # Reusable React components
+│   │   ├── features/          # Feature-specific components
+│   │   │   ├── SearchBar.tsx
+│   │   │   ├── MovieCard.tsx
+│   │   │   └── FilterPanel.tsx
+│   │   ├── ui/                # Generic UI components
+│   │   │   ├── Pagination.tsx
+│   │   │   └── Loading.tsx
+│   │   └── layout/            # Layout components
+│   │       └── Navigation.tsx
+│   ├── lib/                   # Utilities and services
+│   │   ├── api/
+│   │   │   └── omdb.ts        # OMDb API client
+│   │   ├── hooks/
+│   │   │   └── index.ts       # Custom React hooks
+│   │   └── utils/
+│   │       └── favorites.ts   # LocalStorage utilities
+│   └── types/
+│       └── index.ts           # TypeScript type definitions
+├── public/                    # Static assets
+└── package.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🎨 Design Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Modern Glassmorphism** - Semi-transparent elements with backdrop blur
+- **Gradient Backgrounds** - Dynamic purple/pink gradients
+- **Smooth Animations** - Hover effects and transitions
+- **Custom Scrollbar** - Branded scrollbar design
+- **Responsive Grid** - Adapts from mobile to desktop
+- **Dark Theme** - Eye-friendly dark color palette
+- **Google Fonts** - Inter font family for clean typography
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Built With
 
-## Learn More
+- **[Next.js 14+](https://nextjs.org/)** - React framework with App Router
+- **[TypeScript](https://www.typescriptlang.org/)** - Type-safe development
+- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
+- **[OMDb API](http://www.omdbapi.com/)** - Movie database API
+- **LocalStorage API** - Client-side data persistence
 
-To learn more about Next.js, take a look at the following resources:
+## 📝 Available Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# Development server
+npm run dev
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Production build
+npm run build
 
-## Deploy on Vercel
+# Start production server
+npm start
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Lint code
+npm run lint
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Type check
+npm run type-check
+```
+
+## 🔑 API Usage
+
+The application uses the OMDb API with the following endpoints:
+
+- **Search**: `/?s={query}&type={type}&y={year}&page={page}`
+- **Details**: `/?i={imdbID}&plot=full`
+
+API key is required and should be set in `.env.local`.
+
+## 🌐 Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## 📄 License
+
+This project is open source and available under the MIT License.
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+## 👨‍💻 Author
+
+Built with ❤️ using Next.js and Tailwind CSS
+
+---
+
+**Note**: This application requires an active internet connection to fetch movie data from the OMDb API.
+# Frontend-Hackathon-2025
