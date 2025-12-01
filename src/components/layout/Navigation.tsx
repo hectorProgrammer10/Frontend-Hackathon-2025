@@ -2,6 +2,7 @@
 
 'use client';
 
+import { Heart } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -22,6 +23,7 @@ export default function Navigation() {
 
   // Close menu when route changes
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Intentionally syncing menu state with pathname changes
     setIsMenuOpen(false);
   }, [pathname]);
 
@@ -58,7 +60,7 @@ export default function Navigation() {
                 : 'text-white/70 hover:text-white hover:bg-white/5'
                 }`}
             >
-              Home
+              Inicio
             </Link>
             <Link
               href="/search"
@@ -67,7 +69,7 @@ export default function Navigation() {
                 : 'text-white/70 hover:text-white hover:bg-white/5'
                 }`}
             >
-              Search
+              Buscar
             </Link>
             <Link
               href="/favorites"
@@ -76,8 +78,8 @@ export default function Navigation() {
                 : 'text-white/70 hover:text-white hover:bg-white/5'
                 }`}
             >
-              <span>Favorites</span>
-              <span className="text-sm">❤️</span>
+              <span>Favoritos</span>
+              <span className="text-sm"><Heart size={16}></Heart></span>
             </Link>
           </div>
 
@@ -107,19 +109,19 @@ export default function Navigation() {
             href="/"
             className={`text-3xl font-bold transition-colors ${isActive('/') ? 'text-purple-400' : 'text-white hover:text-purple-300'}`}
           >
-            Home
+            Inicio
           </Link>
           <Link
             href="/search"
             className={`text-3xl font-bold transition-colors ${isActive('/search') ? 'text-purple-400' : 'text-white hover:text-purple-300'}`}
           >
-            Search
+            Buscar
           </Link>
           <Link
             href="/favorites"
             className={`text-3xl font-bold transition-colors flex items-center gap-3 ${isActive('/favorites') ? 'text-purple-400' : 'text-white hover:text-purple-300'}`}
           >
-            Favorites ❤️
+            Favoritos ❤️
           </Link>
         </div>
       </div>

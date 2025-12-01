@@ -8,6 +8,7 @@ import MovieCard from '@/components/features/MovieCard';
 import { LoadingSkeleton } from '@/components/ui/Loading';
 import { Movie } from '@/types';
 import { getTrendingMovies, getPopularSeries } from '@/lib/api/omdb';
+import { FireExtinguisher, TrendingUp, Tv, Tv2 } from 'lucide-react';
 
 export default function HomePage() {
   const [trendingMovies, setTrendingMovies] = useState<Movie[]>([]);
@@ -40,18 +41,18 @@ export default function HomePage() {
           <div className="text-center space-y-6 md:space-y-8 animate-fadeIn">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight">
               <span className="bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent">
-                Discover Amazing
+                Descubre Increíbles
               </span>
               <br />
               <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
-                Movies & Series
+                Películas y Series
               </span>
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl text-white/60 max-w-2xl mx-auto leading-relaxed">
-              Explore millions of movies and TV series. Find your next favorite story today.
+              Explora millones de películas y series de TV. Encuentra tu próxima historia favorita hoy.
             </p>
             <div className="max-w-2xl mx-auto mt-8 md:mt-12">
-              <SearchBar placeholder="Search for movies, series, or episodes..." />
+              <SearchBar placeholder="Buscar películas, series o episodios..." />
             </div>
           </div>
         </div>
@@ -79,13 +80,13 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="flex items-center justify-between mb-6 md:mb-8">
           <h2 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-2">
-            <span className="text-3xl md:text-4xl">🔥</span> Trending Movies
+            <span className="text-3xl md:text-4xl"><TrendingUp size={28}></TrendingUp></span> Películas en Tendencia
           </h2>
           <a
             href="/search?type=movie"
             className="text-purple-400 hover:text-purple-300 font-semibold transition-colors text-sm md:text-base"
           >
-            See all →
+            Ver todas →
           </a>
         </div>
 
@@ -104,13 +105,13 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="flex items-center justify-between mb-6 md:mb-8">
           <h2 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-2">
-            <span className="text-3xl md:text-4xl">📺</span> Popular Series
+            <span className="text-3xl md:text-4xl"><Tv size={28}></Tv></span> Series Populares
           </h2>
           <a
             href="/search?type=series"
             className="text-purple-400 hover:text-purple-300 font-semibold transition-colors text-sm md:text-base"
           >
-            See all →
+            Ver todas →
           </a>
         </div>
 

@@ -30,13 +30,13 @@ export default function FilterPanel({ filters, onFilterChange }: FilterPanelProp
   return (
     <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 sticky top-24">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-xl font-bold text-white">Filters</h3>
+        <h3 className="text-xl font-bold text-white">Filtros</h3>
         {(filters.type || filters.year || filters.genre || filters.minRating) && (
           <button
             onClick={() => onFilterChange({ page: 1 })}
             className="text-xs text-purple-400 hover:text-purple-300 font-semibold"
           >
-            Reset All
+            Restablecer Todo
           </button>
         )}
       </div>
@@ -45,7 +45,7 @@ export default function FilterPanel({ filters, onFilterChange }: FilterPanelProp
         {/* Type Filter */}
         <div>
           <label className="block text-white/80 text-sm font-semibold mb-2">
-            Content Type
+            Tipo de Contenido
           </label>
           <select
             value={filters.type || ''}
@@ -54,17 +54,17 @@ export default function FilterPanel({ filters, onFilterChange }: FilterPanelProp
                      text-white outline-none cursor-pointer appearance-none
                      focus:border-purple-500/50 focus:bg-white/15 transition-all"
           >
-            <option value="">All Types</option>
-            <option value="movie">Movies</option>
+            <option value="">Todos los Tipos</option>
+            <option value="movie">Películas</option>
             <option value="series">Series</option>
-            <option value="episode">Episodes</option>
+            <option value="episode">Episodios</option>
           </select>
         </div>
 
         {/* Year Filter */}
         <div>
           <label className="block text-white/80 text-sm font-semibold mb-2">
-            Release Year
+            Año de Estreno
           </label>
           <select
             value={filters.year || ''}
@@ -73,7 +73,7 @@ export default function FilterPanel({ filters, onFilterChange }: FilterPanelProp
                      text-white outline-none cursor-pointer appearance-none
                      focus:border-purple-500/50 focus:bg-white/15 transition-all"
           >
-            <option value="">All Years</option>
+            <option value="">Todos los Años</option>
             {YEARS.map((year) => (
               <option key={year} value={year}>
                 {year}
@@ -85,7 +85,7 @@ export default function FilterPanel({ filters, onFilterChange }: FilterPanelProp
         {/* Genre Filter (Client-side) */}
         <div>
           <label className="block text-white/80 text-sm font-semibold mb-2">
-            Genre <span className="text-white/40 text-xs font-normal">(Current Page)</span>
+            Género <span className="text-white/40 text-xs font-normal">(Página Actual)</span>
           </label>
           <select
             value={filters.genre || ''}
@@ -94,7 +94,7 @@ export default function FilterPanel({ filters, onFilterChange }: FilterPanelProp
                      text-white outline-none cursor-pointer appearance-none
                      focus:border-purple-500/50 focus:bg-white/15 transition-all"
           >
-            <option value="">All Genres</option>
+            <option value="">Todos los Géneros</option>
             {GENRES.map((genre) => (
               <option key={genre} value={genre}>
                 {genre}
@@ -106,7 +106,7 @@ export default function FilterPanel({ filters, onFilterChange }: FilterPanelProp
         {/* Min Rating Filter (Client-side) */}
         <div>
           <label className="block text-white/80 text-sm font-semibold mb-2">
-            Min Rating <span className="text-white/40 text-xs font-normal">(Current Page)</span>
+            Calificación Mínima <span className="text-white/40 text-xs font-normal">(Página Actual)</span>
           </label>
           <div className="px-2">
             <input

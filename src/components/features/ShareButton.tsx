@@ -4,6 +4,7 @@
 
 import { useState } from 'react';
 import Toast from '@/components/ui/Toast';
+import { Link } from 'lucide-react';
 
 interface ShareButtonProps {
   title: string;
@@ -51,7 +52,7 @@ export default function ShareButton({ title, text }: ShareButtonProps) {
                  hover:scale-105 active:scale-95
                  flex items-center justify-center gap-3"
       >
-        <span className="text-2xl">🔗</span>
+        <span className="text-2xl"><Link size={20}></Link></span>
         Share Movie
       </button>
 

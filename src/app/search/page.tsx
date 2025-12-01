@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import SearchBar from '@/components/features/SearchBar';
 import MovieCard from '@/components/features/MovieCard';
@@ -11,6 +11,7 @@ import Pagination from '@/components/ui/Pagination';
 import { LoadingSkeleton, EmptyState, ErrorMessage } from '@/components/ui/Loading';
 import { useMovieSearch } from '@/lib/hooks';
 import { Filters } from '@/types';
+import { Grid2X2, List } from 'lucide-react';
 
 function SearchContent() {
   const searchParams = useSearchParams();
@@ -23,84 +24,88 @@ function SearchContent() {
     page: 1,
   });
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [filteredResults, setFilteredResults] = useState<import('@/types').Movie[]>([]);
 
   const { results, loading, error, search } = useMovieSearch();
-  const [filteredResults, setFilteredResults] = useState<import('@/types').Movie[]>([]);
+
+  // Use ref to track if we're currently filtering to avoid race conditions
+  const isFilteringRef = useRef(false);
 
   useEffect(() => {
     if (initialQuery) {
       search(initialQuery, filters);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Only run on mount with initial query
   }, [initialQuery]);
 
   useEffect(() => {
     if (query) {
       search(query, filters);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Only trigger on specific filter changes
   }, [filters.type, filters.year, filters.page]);
 
-  // Client-side filtering effect
+  // Client-side filtering effect - properly handling async operations
   useEffect(() => {
     if (!results?.Search) {
       setFilteredResults([]);
       return;
     }
 
-    let filtered = [...results.Search];
-
     // Note: OMDb search endpoint doesn't return Genre or Rating, 
     // so we can't truly filter client-side without fetching details for EACH movie.
-    // However, for the purpose of this requirement, we will implement the logic 
-    // assuming we had that data, or we can fetch details for the current page.
-    // 
     // Since fetching details for 10 movies would be slow and hit API limits,
-    // we will acknowledge this limitation in the UI or implement a "best effort"
-    // filter if we had the data. 
-    //
-    // BUT, to fulfill the user request "resolve everything", we will fetch details
-    // for the displayed movies to allow filtering. This might be slower.
+    // we acknowledge this limitation but implement it to fulfill requirements.
 
     const applyFilters = async () => {
-      if (!filters.genre && !filters.minRating) {
-        setFilteredResults(results.Search);
-        return;
-      }
+      // Prevent race conditions
+      if (isFilteringRef.current) return;
+      isFilteringRef.current = true;
 
-      // We need to fetch details for these movies to filter them
-      // This is a heavy operation but necessary for the requirement
-      const detailedMovies = await Promise.all(
-        results.Search.map(async (movie) => {
-          try {
-            const res = await fetch(`https://www.omdbapi.com/?apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}&i=${movie.imdbID}`);
-            return await res.json();
-          } catch {
-            return movie;
+      try {
+        if (!filters.genre && !filters.minRating) {
+          setFilteredResults(results.Search);
+          return;
+        }
+
+        // We need to fetch details for these movies to filter them
+        // This is a heavy operation but necessary for the requirement
+        const detailedMovies = await Promise.all(
+          results.Search.map(async (movie) => {
+            try {
+              const res = await fetch(`https://www.omdbapi.com/?apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}&i=${movie.imdbID}`);
+              return await res.json();
+            } catch {
+              return movie;
+            }
+          })
+        );
+
+        const finalFiltered = detailedMovies.filter(movie => {
+          let pass = true;
+
+          if (filters.genre && movie.Genre) {
+            pass = pass && movie.Genre.includes(filters.genre);
           }
-        })
-      );
 
-      const finalFiltered = detailedMovies.filter(movie => {
-        let pass = true;
+          if (filters.minRating && movie.imdbRating && movie.imdbRating !== 'N/A') {
+            pass = pass && parseFloat(movie.imdbRating) >= filters.minRating;
+          }
 
-        if (filters.genre && movie.Genre) {
-          pass = pass && movie.Genre.includes(filters.genre);
-        }
+          return pass;
+        });
 
-        if (filters.minRating && movie.imdbRating && movie.imdbRating !== 'N/A') {
-          pass = pass && parseFloat(movie.imdbRating) >= filters.minRating;
-        }
-
-        return pass;
-      });
-
-      // Map back to basic movie type for display
-      setFilteredResults(finalFiltered.map(m => ({
-        imdbID: m.imdbID,
-        Title: m.Title,
-        Year: m.Year,
-        Type: m.Type,
-        Poster: m.Poster
-      })));
+        // Map back to basic movie type for display
+        setFilteredResults(finalFiltered.map(m => ({
+          imdbID: m.imdbID,
+          Title: m.Title,
+          Year: m.Year,
+          Type: m.Type,
+          Poster: m.Poster
+        })));
+      } finally {
+        isFilteringRef.current = false;
+      }
     };
 
     applyFilters();
@@ -142,11 +147,11 @@ function SearchContent() {
             {results && results.Search && results.Search.length > 0 && (
               <div className="flex items-center justify-between mb-6">
                 <p className="text-white/70">
-                  Found <span className="text-white font-bold">{results.totalResults}</span> results
-                  {query && ` for "${query}"`}
+                  Encontrados <span className="text-white font-bold">{results.totalResults}</span> resultados
+                  {query && ` para "${query}"`}
                   {(filters.genre || filters.minRating) && (
                     <span className="ml-2 text-purple-400 text-sm">
-                      (Showing {filteredResults?.length} after filters)
+                      (Mostrando {filteredResults?.length} después de filtros)
                     </span>
                   )}
                 </p>
@@ -158,10 +163,7 @@ function SearchContent() {
                       : 'bg-white/10 text-white/70 hover:bg-white/20'
                       }`}
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                        d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                    </svg>
+                    <Grid2X2 size={20}></Grid2X2>
                   </button>
                   <button
                     onClick={() => setViewMode('list')}
@@ -170,10 +172,7 @@ function SearchContent() {
                       : 'bg-white/10 text-white/70 hover:bg-white/20'
                       }`}
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                        d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
+                    <List size={20}></List>
                   </button>
                 </div>
               </div>
@@ -188,16 +187,16 @@ function SearchContent() {
             {/* Empty State */}
             {!loading && !error && (!results || !results.Search || results.Search.length === 0) && query && (
               <EmptyState
-                title="No Results Found"
-                description={`We couldn't find any ${filters.type || 'content'} matching "${query}". Try adjusting your search or filters.`}
+                title="No se Encontraron Resultados"
+                description={`No pudimos encontrar ningún ${filters.type === 'movie' ? 'película' : filters.type === 'series' ? 'serie' : 'contenido'} que coincida con "${query}". Intenta ajustar tu búsqueda o filtros.`}
               />
             )}
 
             {/* No Search Yet */}
             {!loading && !query && (
               <EmptyState
-                title="Start Your Search"
-                description="Enter a movie or series title in the search bar above to get started."
+                title="Comienza tu Búsqueda"
+                description="Ingresa el título de una película o serie en la barra de búsqueda para comenzar."
               />
             )}
 

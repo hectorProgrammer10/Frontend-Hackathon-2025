@@ -7,6 +7,7 @@ import { Movie } from '@/types';
 import { searchMovies } from '@/lib/api/omdb';
 import MovieCard from './MovieCard';
 import { LoadingSkeleton } from '@/components/ui/Loading';
+import { Clapperboard } from 'lucide-react';
 
 interface SimilarMoviesProps {
   genre: string;
@@ -48,7 +49,7 @@ export default function SimilarMovies({ genre, currentId }: SimilarMoviesProps) 
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-        <span className="text-3xl">🎬</span> You Might Also Like
+        <span className="text-3xl"><Clapperboard size={28}></Clapperboard></span> También te podría gustar
       </h2>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
