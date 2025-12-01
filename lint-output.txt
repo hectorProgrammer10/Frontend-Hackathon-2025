@@ -1,0 +1,11 @@
+
+> omdb-movie-app@0.1.0 lint
+> eslint
+
+
+C:\Users\aguil\.gemini\antigravity\scratch\omdb-movie-app\src\lib\hooks\index.ts
+  34:14  warning  '_err' is defined but never used  @typescript-eslint/no-unused-vars
+  67:16  warning  '_err' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 2 problems (0 errors, 2 warnings)
+

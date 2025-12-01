@@ -4,6 +4,7 @@
 
 import { Movie } from '@/types';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState } from 'react';
 import { useFavorites } from '@/lib/hooks';
 
@@ -35,11 +36,13 @@ export default function MovieCard({ movie, variant = 'grid' }: MovieCardProps) {
                       border border-white/5 hover:border-purple-500/30
                       group cursor-pointer h-full">
           <div className="relative w-20 sm:w-24 aspect-[2/3] flex-shrink-0 rounded-lg overflow-hidden shadow-lg">
-            <img
+            <Image
               src={posterUrl}
               alt={movie.Title}
+              fill
               onError={() => setImageError(true)}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+              sizes="(max-width: 640px) 80px, 96px"
             />
           </div>
           <div className="flex-1 flex flex-col justify-between py-1">
@@ -75,11 +78,13 @@ export default function MovieCard({ movie, variant = 'grid' }: MovieCardProps) {
                     transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl
                     hover:shadow-purple-500/20 cursor-pointer h-full flex flex-col">
         <div className="relative aspect-[2/3] overflow-hidden">
-          <img
+          <Image
             src={posterUrl}
             alt={movie.Title}
+            fill
             onError={() => setImageError(true)}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+            className="object-cover group-hover:scale-110 transition-transform duration-700"
+            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent 
                         opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

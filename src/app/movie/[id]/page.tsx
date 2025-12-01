@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import { useMovieDetails, useFavorites } from '@/lib/hooks';
 import { LoadingSpinner, ErrorMessage } from '@/components/ui/Loading';
 import Link from 'next/link';
+import Image from 'next/image';
 import TrailerPlayer from '@/components/features/TrailerPlayer';
 import SimilarMovies from '@/components/features/SimilarMovies';
 import ShareButton from '@/components/features/ShareButton';
@@ -58,10 +59,13 @@ export default function MovieDetailPage() {
           <div className="lg:w-1/3">
             <div className="sticky top-24">
               <div className="relative aspect-[2/3] rounded-2xl overflow-hidden shadow-2xl shadow-purple-500/20">
-                <img
+                <Image
                   src={posterUrl}
                   alt={movie.Title}
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  priority
                 />
               </div>
 

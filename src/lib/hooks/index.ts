@@ -31,7 +31,8 @@ export function useMovieSearch() {
       if (data.Response === 'False') {
         setError(data.Error || 'No results found');
       }
-    } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Error not needed, just catching to set generic error message
+    } catch (_err) {
       setError('Failed to search movies');
       setResults(null);
     } finally {
@@ -64,7 +65,8 @@ export function useMovieDetails(id: string | null) {
         } else {
           setError('Movie not found');
         }
-      } catch (err) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Error not needed, just catching to set generic error message
+      } catch (_err) {
         setError('Failed to fetch movie details');
       } finally {
         setLoading(false);

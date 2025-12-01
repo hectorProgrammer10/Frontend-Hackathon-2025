@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import SearchBar from '@/components/features/SearchBar';
 import MovieCard from '@/components/features/MovieCard';
@@ -23,84 +23,88 @@ function SearchContent() {
     page: 1,
   });
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [filteredResults, setFilteredResults] = useState<import('@/types').Movie[]>([]);
 
   const { results, loading, error, search } = useMovieSearch();
-  const [filteredResults, setFilteredResults] = useState<import('@/types').Movie[]>([]);
+
+  // Use ref to track if we're currently filtering to avoid race conditions
+  const isFilteringRef = useRef(false);
 
   useEffect(() => {
     if (initialQuery) {
       search(initialQuery, filters);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Only run on mount with initial query
   }, [initialQuery]);
 
   useEffect(() => {
     if (query) {
       search(query, filters);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Only trigger on specific filter changes
   }, [filters.type, filters.year, filters.page]);
 
-  // Client-side filtering effect
+  // Client-side filtering effect - properly handling async operations
   useEffect(() => {
     if (!results?.Search) {
       setFilteredResults([]);
       return;
     }
 
-    let filtered = [...results.Search];
-
     // Note: OMDb search endpoint doesn't return Genre or Rating, 
     // so we can't truly filter client-side without fetching details for EACH movie.
-    // However, for the purpose of this requirement, we will implement the logic 
-    // assuming we had that data, or we can fetch details for the current page.
-    // 
     // Since fetching details for 10 movies would be slow and hit API limits,
-    // we will acknowledge this limitation in the UI or implement a "best effort"
-    // filter if we had the data. 
-    //
-    // BUT, to fulfill the user request "resolve everything", we will fetch details
-    // for the displayed movies to allow filtering. This might be slower.
+    // we acknowledge this limitation but implement it to fulfill requirements.
 
     const applyFilters = async () => {
-      if (!filters.genre && !filters.minRating) {
-        setFilteredResults(results.Search);
-        return;
-      }
+      // Prevent race conditions
+      if (isFilteringRef.current) return;
+      isFilteringRef.current = true;
 
-      // We need to fetch details for these movies to filter them
-      // This is a heavy operation but necessary for the requirement
-      const detailedMovies = await Promise.all(
-        results.Search.map(async (movie) => {
-          try {
-            const res = await fetch(`https://www.omdbapi.com/?apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}&i=${movie.imdbID}`);
-            return await res.json();
-          } catch {
-            return movie;
+      try {
+        if (!filters.genre && !filters.minRating) {
+          setFilteredResults(results.Search);
+          return;
+        }
+
+        // We need to fetch details for these movies to filter them
+        // This is a heavy operation but necessary for the requirement
+        const detailedMovies = await Promise.all(
+          results.Search.map(async (movie) => {
+            try {
+              const res = await fetch(`https://www.omdbapi.com/?apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}&i=${movie.imdbID}`);
+              return await res.json();
+            } catch {
+              return movie;
+            }
+          })
+        );
+
+        const finalFiltered = detailedMovies.filter(movie => {
+          let pass = true;
+
+          if (filters.genre && movie.Genre) {
+            pass = pass && movie.Genre.includes(filters.genre);
           }
-        })
-      );
 
-      const finalFiltered = detailedMovies.filter(movie => {
-        let pass = true;
+          if (filters.minRating && movie.imdbRating && movie.imdbRating !== 'N/A') {
+            pass = pass && parseFloat(movie.imdbRating) >= filters.minRating;
+          }
 
-        if (filters.genre && movie.Genre) {
-          pass = pass && movie.Genre.includes(filters.genre);
-        }
+          return pass;
+        });
 
-        if (filters.minRating && movie.imdbRating && movie.imdbRating !== 'N/A') {
-          pass = pass && parseFloat(movie.imdbRating) >= filters.minRating;
-        }
-
-        return pass;
-      });
-
-      // Map back to basic movie type for display
-      setFilteredResults(finalFiltered.map(m => ({
-        imdbID: m.imdbID,
-        Title: m.Title,
-        Year: m.Year,
-        Type: m.Type,
-        Poster: m.Poster
-      })));
+        // Map back to basic movie type for display
+        setFilteredResults(finalFiltered.map(m => ({
+          imdbID: m.imdbID,
+          Title: m.Title,
+          Year: m.Year,
+          Type: m.Type,
+          Poster: m.Poster
+        })));
+      } finally {
+        isFilteringRef.current = false;
+      }
     };
 
     applyFilters();
