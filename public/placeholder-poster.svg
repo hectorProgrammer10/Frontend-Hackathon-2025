@@ -1,0 +1,20 @@
+<svg width="300" height="450" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="300" height="450" fill="url(#grad)"/>
+  <g transform="translate(150, 200)">
+    <circle r="50" fill="white" opacity="0.2"/>
+    <path d="M-20,-10 L-20,10 L20,10 L20,-10 Z M-15,-5 L-15,5 L-5,5 L-5,-5 Z M5,-5 L5,5 L15,5 L15,-5 Z" 
+          fill="white" opacity="0.8"/>
+    <circle cx="-10" cy="0" r="15" fill="none" stroke="white" stroke-width="2" opacity="0.6"/>
+    <circle cx="10" cy="0" r="15" fill="none" stroke="white" stroke-width="2" opacity="0.6"/>
+  </g>
+  <text x="150" y="300" font-family="Arial, sans-serif" font-size="20" fill="white" 
+        text-anchor="middle" opacity="0.9">No Poster</text>
+  <text x="150" y="325" font-family="Arial, sans-serif" font-size="20" fill="white" 
+        text-anchor="middle" opacity="0.9">Available</text>
+</svg>
