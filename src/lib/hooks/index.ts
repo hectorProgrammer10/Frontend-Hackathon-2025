@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { Movie, MovieDetail, SearchResponse, Filters } from '@/types';
 import { searchMovies, getMovieDetails } from '@/lib/api/omdb';
 import { getFavorites, toggleFavorite as toggleFav, isFavorite } from '@/lib/utils/favorites';
+import { useToast } from '@/lib/context/ToastContext';
 
 /**
  * Hook for searching movies
@@ -14,6 +15,7 @@ export function useMovieSearch() {
   const [results, setResults] = useState<SearchResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { showToast } = useToast();
 
   const search = async (query: string, filters?: Filters) => {
     if (!query.trim()) {
@@ -29,12 +31,22 @@ export function useMovieSearch() {
       setResults(data);
 
       if (data.Response === 'False') {
-        setError(data.Error || 'No results found');
+        let errorMessage = data.Error || 'No se encontraron resultados';
+
+        // Translate common API errors
+        if (errorMessage === 'Movie not found!') errorMessage = 'No se encontraron resultados';
+        if (errorMessage === 'Too many results.') errorMessage = 'Demasiados resultados, intenta ser más específico';
+        if (errorMessage === 'Incorrect IMDb ID.') errorMessage = 'ID de IMDb incorrecto';
+
+        setError(errorMessage);
+        showToast(errorMessage, 'error');
       }
       // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Error not needed, just catching to set generic error message
     } catch (_err) {
-      setError('Failed to search movies');
+      const errorMessage = 'Error al buscar películas. Por favor intenta de nuevo.';
+      setError(errorMessage);
       setResults(null);
+      showToast(errorMessage, 'error');
     } finally {
       setLoading(false);
     }
@@ -50,6 +62,7 @@ export function useMovieDetails(id: string | null) {
   const [movie, setMovie] = useState<MovieDetail | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { showToast } = useToast();
 
   useEffect(() => {
     if (!id) return;
@@ -63,18 +76,22 @@ export function useMovieDetails(id: string | null) {
         if (data) {
           setMovie(data);
         } else {
-          setError('Movie not found');
+          const errorMessage = 'Película no encontrada';
+          setError(errorMessage);
+          showToast(errorMessage, 'error');
         }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Error not needed, just catching to set generic error message
       } catch (_err) {
-        setError('Failed to fetch movie details');
+        const errorMessage = 'Error al cargar detalles de la película';
+        setError(errorMessage);
+        showToast(errorMessage, 'error');
       } finally {
         setLoading(false);
       }
     };
 
     fetchDetails();
-  }, [id]);
+  }, [id, showToast]);
 
   return { movie, loading, error };
 }
@@ -85,6 +102,7 @@ export function useMovieDetails(id: string | null) {
 export function useFavorites() {
   const [favorites, setFavorites] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
+  const { showToast } = useToast();
 
   useEffect(() => {
     const loadFavorites = () => {
@@ -107,6 +125,13 @@ export function useFavorites() {
   const toggleFavorite = (item: Movie) => {
     const newState = toggleFav(item);
     setFavorites(getFavorites());
+
+    if (newState) {
+      showToast(`"${item.Title}" agregado a favoritos`, 'success');
+    } else {
+      showToast(`"${item.Title}" eliminado de favoritos`, 'info');
+    }
+
     return newState;
   };
 

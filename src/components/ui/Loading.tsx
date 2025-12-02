@@ -1,5 +1,7 @@
 // Loading Component
 
+import { AlertCircle, Ban, Search } from "lucide-react";
+
 export function LoadingSpinner() {
   return (
     <div className="flex items-center justify-center p-12">
@@ -30,7 +32,7 @@ export function ErrorMessage({ message }: { message: string }) {
   return (
     <div className="flex flex-col items-center justify-center p-12 text-center">
       <div className="w-20 h-20 rounded-full bg-red-500/20 flex items-center justify-center mb-4">
-        <span className="text-4xl">⚠️</span>
+        <span className="text-4xl"><AlertCircle size={36} className="text-yellow-500"></AlertCircle></span>
       </div>
       <h3 className="text-2xl font-bold text-white mb-2">Oops!</h3>
       <p className="text-white/60 max-w-md">{message}</p>
@@ -48,7 +50,7 @@ export function EmptyState({
   return (
     <div className="flex flex-col items-center justify-center p-12 text-center">
       <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-4">
-        <span className="text-4xl">🎬</span>
+        <span className="text-4xl"><Search size={36}></Search></span>
       </div>
       <h3 className="text-2xl font-bold text-white mb-2">{title}</h3>
       <p className="text-white/60 max-w-md">{description}</p>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navigation from "@/components/layout/Navigation";
+import { ToastProvider } from "@/lib/context/ToastContext";
 
 export const metadata: Metadata = {
   title: "MovieDB - Explore Movies and Series",
@@ -15,10 +16,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <Navigation />
-        <main className="pt-16">
-          {children}
-        </main>
+        <ToastProvider>
+          <Navigation />
+          <main className="pt-16">
+            {children}
+          </main>
+        </ToastProvider>
       </body>
     </html>
   );
