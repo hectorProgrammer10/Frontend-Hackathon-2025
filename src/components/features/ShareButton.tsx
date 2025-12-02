@@ -1,9 +1,6 @@
-// ShareButton Component
-
 'use client';
 
-import { useState } from 'react';
-import Toast from '@/components/ui/Toast';
+import { useToast } from '@/lib/context/ToastContext';
 import { Link } from 'lucide-react';
 
 interface ShareButtonProps {
@@ -12,13 +9,13 @@ interface ShareButtonProps {
 }
 
 export default function ShareButton({ title, text }: ShareButtonProps) {
-  const [showToast, setShowToast] = useState(false);
+  const { showToast } = useToast();
 
   const handleShare = async () => {
     const url = window.location.href;
     const shareData = {
       title,
-      text: text || `Check out ${title} on MovieDB`,
+      text: text || `Mira ${title} en MovieDB`,
       url,
     };
 
@@ -36,31 +33,24 @@ export default function ShareButton({ title, text }: ShareButtonProps) {
     // Fallback to Clipboard (Desktop)
     try {
       await navigator.clipboard.writeText(url);
-      setShowToast(true);
+      showToast('¡Enlace copiado al portapapeles!', 'success');
     } catch (err) {
       console.error('Failed to copy:', err);
+      showToast('Error al copiar el enlace', 'error');
     }
   };
 
   return (
-    <>
-      <button
-        onClick={handleShare}
-        className="w-full mt-4 px-6 py-4 rounded-xl font-bold text-lg
-                 bg-white/10 hover:bg-white/20 border border-white/10
-                 text-white transition-all duration-300
-                 hover:scale-105 active:scale-95
-                 flex items-center justify-center gap-3"
-      >
-        <span className="text-2xl"><Link size={20}></Link></span>
-        Share Movie
-      </button>
-
-      <Toast
-        message="Link copied to clipboard!"
-        isVisible={showToast}
-        onClose={() => setShowToast(false)}
-      />
-    </>
+    <button
+      onClick={handleShare}
+      className="w-full mt-4 px-6 py-4 rounded-xl font-bold text-lg
+               bg-white/10 hover:bg-white/20 border border-white/10
+               text-white transition-all duration-300
+               hover:scale-105 active:scale-95
+               flex items-center justify-center gap-3"
+    >
+      <span className="text-2xl"><Link size={20}></Link></span>
+      Compartir
+    </button>
   );
 }

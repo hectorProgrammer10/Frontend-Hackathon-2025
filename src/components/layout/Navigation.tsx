@@ -79,7 +79,7 @@ export default function Navigation() {
                 }`}
             >
               <span>Favoritos</span>
-              <span className="text-sm"><Heart size={16}></Heart></span>
+              <span className="text-sm text-red-500"><Heart size={16}></Heart></span>
             </Link>
           </div>
 

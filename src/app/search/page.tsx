@@ -45,71 +45,14 @@ function SearchContent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Only trigger on specific filter changes
   }, [filters.type, filters.year, filters.page]);
 
-  // Client-side filtering effect - properly handling async operations
+  // Update filtered results when search results change
   useEffect(() => {
-    if (!results?.Search) {
+    if (results?.Search) {
+      setFilteredResults(results.Search);
+    } else {
       setFilteredResults([]);
-      return;
     }
-
-    // Note: OMDb search endpoint doesn't return Genre or Rating, 
-    // so we can't truly filter client-side without fetching details for EACH movie.
-    // Since fetching details for 10 movies would be slow and hit API limits,
-    // we acknowledge this limitation but implement it to fulfill requirements.
-
-    const applyFilters = async () => {
-      // Prevent race conditions
-      if (isFilteringRef.current) return;
-      isFilteringRef.current = true;
-
-      try {
-        if (!filters.genre && !filters.minRating) {
-          setFilteredResults(results.Search);
-          return;
-        }
-
-        // We need to fetch details for these movies to filter them
-        // This is a heavy operation but necessary for the requirement
-        const detailedMovies = await Promise.all(
-          results.Search.map(async (movie) => {
-            try {
-              const res = await fetch(`https://www.omdbapi.com/?apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}&i=${movie.imdbID}`);
-              return await res.json();
-            } catch {
-              return movie;
-            }
-          })
-        );
-
-        const finalFiltered = detailedMovies.filter(movie => {
-          let pass = true;
-
-          if (filters.genre && movie.Genre) {
-            pass = pass && movie.Genre.includes(filters.genre);
-          }
-
-          if (filters.minRating && movie.imdbRating && movie.imdbRating !== 'N/A') {
-            pass = pass && parseFloat(movie.imdbRating) >= filters.minRating;
-          }
-
-          return pass;
-        });
-
-        // Map back to basic movie type for display
-        setFilteredResults(finalFiltered.map(m => ({
-          imdbID: m.imdbID,
-          Title: m.Title,
-          Year: m.Year,
-          Type: m.Type,
-          Poster: m.Poster
-        })));
-      } finally {
-        isFilteringRef.current = false;
-      }
-    };
-
-    applyFilters();
-  }, [results, filters.genre, filters.minRating]);
+  }, [results]);
 
   const handleSearch = (newQuery: string) => {
     setQuery(newQuery);
@@ -149,11 +92,6 @@ function SearchContent() {
                 <p className="text-white/70">
                   Encontrados <span className="text-white font-bold">{results.totalResults}</span> resultados
                   {query && ` para "${query}"`}
-                  {(filters.genre || filters.minRating) && (
-                    <span className="ml-2 text-purple-400 text-sm">
-                      (Mostrando {filteredResults?.length} después de filtros)
-                    </span>
-                  )}
                 </p>
                 <div className="flex gap-2">
                   <button

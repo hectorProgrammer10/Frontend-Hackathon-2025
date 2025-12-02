@@ -1,69 +1,46 @@
-// OMDb API Service Layer
+// OMDb API Service Layer (Now using TMDB as backend)
 import { Movie, MovieDetail, SearchResponse, Filters } from '@/types';
-
-const API_KEY = process.env.NEXT_PUBLIC_OMDB_API_KEY;
-const BASE_URL = 'https://www.omdbapi.com/';
+import {
+  searchTMDB,
+  getMovieDetailsTMDB,
+  getTVShowDetailsTMDB,
+  parseTMDBId,
+} from './tmdb';
 
 /**
- * Search for movies and series by title
+ * Search for movies and series by title (now using TMDB)
  */
 export async function searchMovies(
   query: string,
   filters: Filters = {}
 ): Promise<SearchResponse> {
-  try {
-    const params = new URLSearchParams({
-      apikey: API_KEY || '',
-      s: query,
-    });
-
-    if (filters.type) params.append('type', filters.type);
-    if (filters.year) params.append('y', filters.year);
-    if (filters.page) params.append('page', filters.page.toString());
-
-    const response = await fetch(`${BASE_URL}?${params.toString()}`);
-    const data: SearchResponse = await response.json();
-
-    if (data.Response === 'False') {
-      return {
-        Search: [],
-        totalResults: '0',
-        Response: 'False',
-        Error: data.Error || 'No results found',
-      };
-    }
-
-    return data;
-  } catch (error) {
-    console.error('Error searching movies:', error);
-    return {
-      Search: [],
-      totalResults: '0',
-      Response: 'False',
-      Error: 'Failed to fetch data',
-    };
-  }
+  // Delegate to TMDB search
+  return searchTMDB(query, filters);
 }
 
 /**
- * Get detailed information about a movie or series by IMDb ID
+ * Get detailed information about a movie or series by ID
+ * Supports both TMDB IDs (tmdb-movie-123, tmdb-tv-456) and legacy IMDb IDs
  */
 export async function getMovieDetails(id: string): Promise<MovieDetail | null> {
   try {
-    const params = new URLSearchParams({
-      apikey: API_KEY || '',
-      i: id,
-      plot: 'full',
-    });
+    // Check if it's a TMDB ID
+    const tmdbInfo = parseTMDBId(id);
 
-    const response = await fetch(`${BASE_URL}?${params.toString()}`);
-    const data = await response.json();
-
-    if (data.Response === 'False') {
-      return null;
+    if (tmdbInfo) {
+      // It's a TMDB ID, fetch from TMDB
+      if (tmdbInfo.type === 'movie') {
+        return await getMovieDetailsTMDB(tmdbInfo.id);
+      } else {
+        return await getTVShowDetailsTMDB(tmdbInfo.id);
+      }
     }
 
-    return data as MovieDetail;
+    // Legacy IMDb ID - we don't support this anymore
+    // Could add TMDB's find endpoint here if needed
+    console.warn('Legacy IMDb ID detected, not supported:', id);
+    return null;
+
   } catch (error) {
     console.error('Error fetching movie details:', error);
     return null;
@@ -71,56 +48,21 @@ export async function getMovieDetails(id: string): Promise<MovieDetail | null> {
 }
 
 /**
- * Get trending/popular movies (using predetermined popular titles)
- * Note: OMDb doesn't have a trending endpoint, so we search for popular movies
+ * Get trending/popular movies from TMDB
+ * Using TMDB API for real trending data
  */
 export async function getTrendingMovies(): Promise<Movie[]> {
-  const popularTitles = [
-    'Inception',
-    'The Dark Knight',
-    'Interstellar',
-    'The Matrix',
-    'Pulp Fiction',
-    'The Shawshank Redemption',
-  ];
-
-  try {
-    const promises = popularTitles.map(async (title) => {
-      const result = await searchMovies(title, { type: 'movie' });
-      return result.Search?.[0] || null;
-    });
-
-    const results = await Promise.all(promises);
-    return results.filter((movie): movie is Movie => movie !== null);
-  } catch (error) {
-    console.error('Error fetching trending movies:', error);
-    return [];
-  }
+  // Import TMDB service dynamically to avoid circular dependencies
+  const { getTrendingMoviesFromTMDB } = await import('./tmdb');
+  return getTrendingMoviesFromTMDB();
 }
 
 /**
- * Get popular series
+ * Get popular series from TMDB
+ * Using TMDB API for real popular TV shows data
  */
 export async function getPopularSeries(): Promise<Movie[]> {
-  const popularSeries = [
-    'Breaking Bad',
-    'Game of Thrones',
-    'Stranger Things',
-    'The Office',
-    'Friends',
-    'The Crown',
-  ];
-
-  try {
-    const promises = popularSeries.map(async (title) => {
-      const result = await searchMovies(title, { type: 'series' });
-      return result.Search?.[0] || null;
-    });
-
-    const results = await Promise.all(promises);
-    return results.filter((series): series is Movie => series !== null);
-  } catch (error) {
-    console.error('Error fetching popular series:', error);
-    return [];
-  }
+  // Import TMDB service dynamically to avoid circular dependencies
+  const { getPopularSeriesFromTMDB } = await import('./tmdb');
+  return getPopularSeriesFromTMDB();
 }

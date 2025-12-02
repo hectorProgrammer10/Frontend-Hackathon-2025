@@ -1,0 +1,18 @@
+
+> omdb-movie-app@0.1.0 lint
+> eslint
+
+
+C:\Users\aguil\.gemini\antigravity\scratch\omdb-movie-app\src\app\movie\[id]\page.tsx
+  13:18  warning  'Film' is defined but never used   @typescript-eslint/no-unused-vars
+  13:37  warning  'Video' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\aguil\.gemini\antigravity\scratch\omdb-movie-app\src\app\page.tsx
+  11:10  warning  'FireExtinguisher' is defined but never used  @typescript-eslint/no-unused-vars
+  11:44  warning  'Tv2' is defined but never used               @typescript-eslint/no-unused-vars
+
+C:\Users\aguil\.gemini\antigravity\scratch\omdb-movie-app\src\components\ui\Loading.tsx
+  3:23  warning  'Ban' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 5 problems (0 errors, 5 warnings)
+

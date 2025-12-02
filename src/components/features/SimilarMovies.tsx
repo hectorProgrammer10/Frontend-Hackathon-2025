@@ -4,7 +4,7 @@
 
 import { useState, useEffect } from 'react';
 import { Movie } from '@/types';
-import { searchMovies } from '@/lib/api/omdb';
+import { getSimilarContentTMDB, parseTMDBId, findTMDBIdFromIMDb } from '@/lib/api/tmdb';
 import MovieCard from './MovieCard';
 import { LoadingSkeleton } from '@/components/ui/Loading';
 import { Clapperboard } from 'lucide-react';
@@ -20,27 +20,47 @@ export default function SimilarMovies({ genre, currentId }: SimilarMoviesProps) 
 
   useEffect(() => {
     const fetchSimilar = async () => {
-      // Use the first genre to find similar content
-      const mainGenre = genre.split(',')[0].trim();
-      if (!mainGenre || mainGenre === 'N/A') {
+      console.log('[SimilarMovies] Fetching for ID:', currentId);
+
+      let tmdbId: number;
+      let type: 'movie' | 'series';
+
+      // 1. Try to parse as TMDB ID
+      const tmdbInfo = parseTMDBId(currentId);
+
+      if (tmdbInfo) {
+        console.log('[SimilarMovies] Parsed TMDB info:', tmdbInfo);
+        tmdbId = tmdbInfo.id;
+        type = tmdbInfo.type === 'movie' ? 'movie' : 'series';
+      } else if (currentId.startsWith('tt')) {
+        // 2. If it's an IMDb ID, look it up
+        console.log('[SimilarMovies] Detected IMDb ID, looking up in TMDB...');
+        const found = await findTMDBIdFromIMDb(currentId);
+
+        if (found) {
+          console.log('[SimilarMovies] Found TMDB ID from IMDb:', found);
+          tmdbId = found.id;
+          type = found.type === 'movie' ? 'movie' : 'series';
+        } else {
+          console.log('[SimilarMovies] Could not find TMDB ID for IMDb ID:', currentId);
+          setLoading(false);
+          return;
+        }
+      } else {
+        console.log('[SimilarMovies] Unknown ID format:', currentId);
         setLoading(false);
         return;
       }
 
-      const result = await searchMovies(mainGenre, { type: 'movie' });
-
-      if (result.Search) {
-        // Filter out the current movie and limit to 6 results
-        const filtered = result.Search
-          .filter(m => m.imdbID !== currentId)
-          .slice(0, 6);
-        setMovies(filtered);
-      }
+      // Use TMDB's similar content endpoint
+      const similar = await getSimilarContentTMDB(tmdbId, type);
+      console.log('[SimilarMovies] Received similar movies:', similar.length);
+      setMovies(similar);
       setLoading(false);
     };
 
     fetchSimilar();
-  }, [genre, currentId]);
+  }, [currentId]);
 
   if (loading) return <LoadingSkeleton />;
 
