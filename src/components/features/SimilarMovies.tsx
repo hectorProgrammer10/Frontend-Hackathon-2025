@@ -14,7 +14,7 @@ interface SimilarMoviesProps {
   currentId: string;
 }
 
-export default function SimilarMovies({ genre, currentId }: SimilarMoviesProps) {
+export default function SimilarMovies({ currentId }: Omit<SimilarMoviesProps, 'genre'>) {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -68,7 +68,7 @@ export default function SimilarMovies({ genre, currentId }: SimilarMoviesProps) 
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+      <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
         <span className="text-3xl"><Clapperboard size={28}></Clapperboard></span> También te podría gustar
       </h2>
 

@@ -228,7 +228,7 @@ async function discoverWithFilters(query: string, filters: Filters): Promise<Sea
     const promises: Promise<TMDBResponse<TMDBMovie> | TMDBResponse<TMDBTVShow>>[] = [];
 
     // Build discover parameters
-    const buildParams = (type: 'movie' | 'tv') => {
+    const buildParams = () => {
       const params = new URLSearchParams({
         page: (filters.page || 1).toString(),
       });

@@ -2,10 +2,11 @@
 
 'use client';
 
-import { Heart } from 'lucide-react';
+import { Heart, Home, Search } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import ThemeToggle from '@/components/features/ThemeToggle';
 
 export default function Navigation() {
   const pathname = usePathname();
@@ -33,7 +34,7 @@ export default function Navigation() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled || isMenuOpen ? 'bg-black/80 backdrop-blur-md border-b border-white/10' : 'bg-transparent'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled || isMenuOpen ? 'bg-black/80 backdrop-blur-md border-b border-white/10' : 'bg-black/50'
         }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -60,7 +61,7 @@ export default function Navigation() {
                 : 'text-white/70 hover:text-white hover:bg-white/5'
                 }`}
             >
-              Inicio
+              <span className='flex items-center gap-2'>Inicio <Home size={16}></Home></span>
             </Link>
             <Link
               href="/search"
@@ -69,7 +70,7 @@ export default function Navigation() {
                 : 'text-white/70 hover:text-white hover:bg-white/5'
                 }`}
             >
-              Buscar
+              <span className='flex items-center gap-2'>Buscar <Search size={16}></Search></span>
             </Link>
             <Link
               href="/favorites"
@@ -78,26 +79,31 @@ export default function Navigation() {
                 : 'text-white/70 hover:text-white hover:bg-white/5'
                 }`}
             >
-              <span>Favoritos</span>
-              <span className="text-sm text-red-500"><Heart size={16}></Heart></span>
+              <span className='flex items-center gap-2'>Favoritos<Heart size={16} className='text-red-500'></Heart></span>
             </Link>
+            <div className="ml-2 pl-2 border-l border-white/10">
+              <ThemeToggle />
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden relative z-50 p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
-            aria-label="Toggle menu"
-          >
-            <div className="w-6 h-5 flex flex-col justify-between">
-              <span className={`w-full h-0.5 bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-2' : ''
-                }`} />
-              <span className={`w-full h-0.5 bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'opacity-0' : ''
-                }`} />
-              <span className={`w-full h-0.5 bg-white rounded-full transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-2.5' : ''
-                }`} />
-            </div>
-          </button>
+          <div className="flex items-center gap-4 md:hidden">
+            <ThemeToggle />
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="relative z-50 p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
+              aria-label="Toggle menu"
+            >
+              <div className="w-6 h-5 flex flex-col justify-between">
+                <span className={`w-full h-0.5 bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-2' : ''
+                  }`} />
+                <span className={`w-full h-0.5 bg-white rounded-full transition-all duration-300 ${isMenuOpen ? 'opacity-0' : ''
+                  }`} />
+                <span className={`w-full h-0.5 bg-white rounded-full transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-2.5' : ''
+                  }`} />
+              </div>
+            </button>
+          </div>
         </div>
       </div>
 
