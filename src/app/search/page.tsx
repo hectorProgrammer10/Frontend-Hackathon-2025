@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useState, useEffect, Suspense, useRef } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import SearchBar from '@/components/features/SearchBar';
 import MovieCard from '@/components/features/MovieCard';
@@ -29,7 +29,7 @@ function SearchContent() {
   const { results, loading, error, search } = useMovieSearch();
 
   // Use ref to track if we're currently filtering to avoid race conditions
-  const isFilteringRef = useRef(false);
+
 
   useEffect(() => {
     if (initialQuery) {
@@ -89,8 +89,8 @@ function SearchContent() {
             {/* View Toggle & Results Count */}
             {results && results.Search && results.Search.length > 0 && (
               <div className="flex items-center justify-between mb-6">
-                <p className="text-white/70">
-                  Encontrados <span className="text-white font-bold">{results.totalResults}</span> resultados
+                <p className="text-muted">
+                  Encontrados <span className="text-foreground font-bold">{results.totalResults}</span> resultados
                   {query && ` para "${query}"`}
                 </p>
                 <div className="flex gap-2">
@@ -98,7 +98,7 @@ function SearchContent() {
                     onClick={() => setViewMode('grid')}
                     className={`p-2 rounded-lg transition-colors ${viewMode === 'grid'
                       ? 'bg-purple-500 text-white'
-                      : 'bg-white/10 text-white/70 hover:bg-white/20'
+                      : 'bg-card text-muted hover:bg-card/80'
                       }`}
                   >
                     <Grid2X2 size={20}></Grid2X2>
@@ -107,7 +107,7 @@ function SearchContent() {
                     onClick={() => setViewMode('list')}
                     className={`p-2 rounded-lg transition-colors ${viewMode === 'list'
                       ? 'bg-purple-500 text-white'
-                      : 'bg-white/10 text-white/70 hover:bg-white/20'
+                      : 'bg-card text-muted hover:bg-card/80'
                       }`}
                   >
                     <List size={20}></List>

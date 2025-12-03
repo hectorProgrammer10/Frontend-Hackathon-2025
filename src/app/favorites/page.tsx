@@ -5,6 +5,7 @@
 import { useFavorites } from '@/lib/hooks';
 import MovieCard from '@/components/features/MovieCard';
 import { LoadingSpinner, EmptyState } from '@/components/ui/Loading';
+import { Star } from 'lucide-react';
 
 export default function FavoritesPage() {
   const { favorites, loading } = useFavorites();
@@ -22,10 +23,10 @@ export default function FavoritesPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="mb-12 text-center">
-          <h1 className="text-4xl md:text-5xl font-black text-white mb-4">
-            ❤️ Tus Favoritos
+          <h1 className="text-4xl md:text-5xl font-black text-yellow-300 mb-4">
+            <Star size={32} className="inline mr-2 text-yellow-300" /> Tus Favoritos
           </h1>
-          <p className="text-xl text-white/70">
+          <p className="text-xl text-yellow-300">
             {favorites.length > 0
               ? `Tienes ${favorites.length} ${favorites.length === 1 ? 'favorito' : 'favoritos'}`
               : 'Comienza a crear tu colección'}

@@ -8,7 +8,9 @@ import MovieCard from '@/components/features/MovieCard';
 import { LoadingSkeleton } from '@/components/ui/Loading';
 import { Movie } from '@/types';
 import { getTrendingMovies, getPopularSeries } from '@/lib/api/omdb';
-import { FireExtinguisher, TrendingUp, Tv, Tv2 } from 'lucide-react';
+import { TrendingUp, Tv } from 'lucide-react';
+
+
 
 export default function HomePage() {
   const [trendingMovies, setTrendingMovies] = useState<Movie[]>([]);
@@ -18,13 +20,18 @@ export default function HomePage() {
   useEffect(() => {
     const fetchHomeData = async () => {
       setLoading(true);
-      const [movies, series] = await Promise.all([
-        getTrendingMovies(),
-        getPopularSeries(),
-      ]);
-      setTrendingMovies(movies);
-      setPopularSeries(series);
-      setLoading(false);
+      try {
+        const [movies, series] = await Promise.all([
+          getTrendingMovies(),
+          getPopularSeries(),
+        ]);
+        setTrendingMovies(movies);
+        setPopularSeries(series);
+      } catch (error) {
+        console.error('Error fetching home data:', error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchHomeData();
@@ -32,6 +39,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen pb-20">
+
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-20 lg:pt-0">
         <div className="absolute inset-0 bg-gradient-to-b from-purple-900/20 via-transparent to-transparent pointer-events-none"></div>
@@ -40,7 +48,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24 lg:py-32 relative z-10">
           <div className="text-center space-y-6 md:space-y-8 animate-fadeIn">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight">
-              <span className="bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-foreground via-purple-400 to-foreground bg-clip-text text-transparent">
                 Descubre Increíbles
               </span>
               <br />
@@ -48,7 +56,7 @@ export default function HomePage() {
                 Películas y Series
               </span>
             </h1>
-            <p className="text-lg md:text-xl lg:text-2xl text-white/60 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl lg:text-2xl text-muted max-w-2xl mx-auto leading-relaxed">
               Explora millones de películas y series de TV. Encuentra tu próxima historia favorita hoy.
             </p>
             <div className="max-w-2xl mx-auto mt-8 md:mt-12">
@@ -65,9 +73,9 @@ export default function HomePage() {
             <a
               key={genre}
               href={`/search?q=${genre}&type=movie`}
-              className="px-4 py-2 md:px-6 md:py-3 rounded-full bg-white/5 backdrop-blur-sm
-                       border border-white/10 text-white/80 font-medium text-sm md:text-base
-                       hover:bg-white/10 hover:border-purple-500/50 hover:text-white
+              className="px-4 py-2 md:px-6 md:py-3 rounded-full bg-card backdrop-blur-sm
+                       border border-border text-muted font-medium text-sm md:text-base
+                       hover:bg-card/80 hover:border-purple-500/50 hover:text-foreground
                        transition-all duration-300 hover:scale-105 active:scale-95"
             >
               {genre}
@@ -79,7 +87,7 @@ export default function HomePage() {
       {/* Trending Movies */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="flex items-center justify-between mb-6 md:mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-2">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground flex items-center gap-2">
             <span className="text-3xl md:text-4xl"><TrendingUp size={28}></TrendingUp></span> Películas en Tendencia
           </h2>
           <a
@@ -104,7 +112,7 @@ export default function HomePage() {
       {/* Popular Series */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="flex items-center justify-between mb-6 md:mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-2">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground flex items-center gap-2">
             <span className="text-3xl md:text-4xl"><Tv size={28}></Tv></span> Series Populares
           </h2>
           <a

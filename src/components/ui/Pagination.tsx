@@ -59,8 +59,8 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="px-4 py-2 rounded-lg bg-white/10 text-white
-                 hover:bg-white/20 disabled:opacity-40 disabled:cursor-not-allowed
+        className="px-4 py-2 rounded-lg bg-card text-foreground
+                 hover:bg-card/80 disabled:opacity-40 disabled:cursor-not-allowed
                  transition-all duration-200"
       >
         Previous
@@ -76,8 +76,8 @@ export default function Pagination({
               ${page === currentPage
                 ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold'
                 : page === '...'
-                  ? 'bg-transparent text-white cursor-default'
-                  : 'bg-white/10 text-white hover:bg-white/20'
+                  ? 'bg-transparent text-muted cursor-default'
+                  : 'bg-card text-foreground hover:bg-card/80'
               }`}
           >
             {page}
@@ -88,8 +88,8 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="px-4 py-2 rounded-lg bg-white/10 text-white
-                 hover:bg-white/20 disabled:opacity-40 disabled:cursor-not-allowed
+        className="px-4 py-2 rounded-lg bg-card text-foreground
+                 hover:bg-card/80 disabled:opacity-40 disabled:cursor-not-allowed
                  transition-all duration-200"
       >
         Next

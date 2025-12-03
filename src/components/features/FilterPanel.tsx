@@ -28,9 +28,9 @@ export default function FilterPanel({ filters, onFilterChange }: FilterPanelProp
   };
 
   return (
-    <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 sticky top-24">
+    <div className="bg-card backdrop-blur-sm rounded-2xl p-6 border border-border sticky top-24">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-xl font-bold text-white">Filtros</h3>
+        <h3 className="text-xl font-bold text-foreground">Filtros</h3>
         {(filters.type || filters.year || filters.genre || filters.minRating) && (
           <button
             onClick={() => onFilterChange({ page: 1 })}
@@ -44,15 +44,15 @@ export default function FilterPanel({ filters, onFilterChange }: FilterPanelProp
       <div className="space-y-6">
         {/* Type Filter */}
         <div>
-          <label className="block text-white/80 text-sm font-semibold mb-2">
+          <label className="block text-muted text-sm font-semibold mb-2">
             Tipo de Contenido
           </label>
           <select
             value={filters.type || ''}
             onChange={(e) => updateFilter('type', e.target.value)}
-            className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl
-                     text-white outline-none cursor-pointer appearance-none
-                     focus:border-purple-500/50 focus:bg-white/15 transition-all"
+            className="w-full px-4 py-2.5 bg-card border border-border rounded-xl
+                     text-foreground outline-none cursor-pointer appearance-none
+                     focus:border-purple-500/50 focus:bg-card/80 transition-all"
           >
             <option value="">Todos los Tipos</option>
             <option value="movie">Películas</option>
@@ -63,15 +63,15 @@ export default function FilterPanel({ filters, onFilterChange }: FilterPanelProp
 
         {/* Year Filter */}
         <div>
-          <label className="block text-white/80 text-sm font-semibold mb-2">
+          <label className="block text-muted text-sm font-semibold mb-2">
             Año de Estreno
           </label>
           <select
             value={filters.year || ''}
             onChange={(e) => updateFilter('year', e.target.value)}
-            className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl
-                     text-white outline-none cursor-pointer appearance-none
-                     focus:border-purple-500/50 focus:bg-white/15 transition-all"
+            className="w-full px-4 py-2.5 bg-card border border-border rounded-xl
+                     text-foreground outline-none cursor-pointer appearance-none
+                     focus:border-purple-500/50 focus:bg-card/80 transition-all"
           >
             <option value="">Todos los Años</option>
             {YEARS.map((year) => (
@@ -84,15 +84,15 @@ export default function FilterPanel({ filters, onFilterChange }: FilterPanelProp
 
         {/* Genre Filter (Client-side) */}
         <div>
-          <label className="block text-white/80 text-sm font-semibold mb-2">
-            Género <span className="text-white/40 text-xs font-normal">(Página Actual)</span>
+          <label className="block text-muted text-sm font-semibold mb-2">
+            Género <span className="text-muted/60 text-xs font-normal">(Página Actual)</span>
           </label>
           <select
             value={filters.genre || ''}
             onChange={(e) => updateFilter('genre', e.target.value)}
-            className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl
-                     text-white outline-none cursor-pointer appearance-none
-                     focus:border-purple-500/50 focus:bg-white/15 transition-all"
+            className="w-full px-4 py-2.5 bg-card border border-border rounded-xl
+                     text-foreground outline-none cursor-pointer appearance-none
+                     focus:border-purple-500/50 focus:bg-card/80 transition-all"
           >
             <option value="">Todos los Géneros</option>
             {GENRES.map((genre) => (
@@ -105,8 +105,8 @@ export default function FilterPanel({ filters, onFilterChange }: FilterPanelProp
 
         {/* Min Rating Filter (Client-side) */}
         <div>
-          <label className="block text-white/80 text-sm font-semibold mb-2">
-            Calificación Mínima <span className="text-white/40 text-xs font-normal">(Página Actual)</span>
+          <label className="block text-muted text-sm font-semibold mb-2">
+            Calificación Mínima <span className="text-muted/60 text-xs font-normal">(Página Actual)</span>
           </label>
           <div className="px-2">
             <input
@@ -116,9 +116,9 @@ export default function FilterPanel({ filters, onFilterChange }: FilterPanelProp
               step="0.5"
               value={filters.minRating || 0}
               onChange={(e) => updateFilter('minRating', parseFloat(e.target.value))}
-              className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-purple-500"
+              className="w-full h-2 bg-card/50 rounded-lg appearance-none cursor-pointer accent-purple-500"
             />
-            <div className="flex justify-between text-xs text-white/60 mt-2">
+            <div className="flex justify-between text-xs text-muted mt-2">
               <span>0</span>
               <span className="text-purple-400 font-bold">{filters.minRating || 0}+</span>
               <span>10</span>

@@ -228,7 +228,7 @@ async function discoverWithFilters(query: string, filters: Filters): Promise<Sea
     const promises: Promise<TMDBResponse<TMDBMovie> | TMDBResponse<TMDBTVShow>>[] = [];
 
     // Build discover parameters
-    const buildParams = (type: 'movie' | 'tv') => {
+    const buildParams = () => {
       const params = new URLSearchParams({
         page: (filters.page || 1).toString(),
       });
@@ -255,7 +255,7 @@ async function discoverWithFilters(query: string, filters: Filters): Promise<Sea
 
     // Fetch movies if needed
     if (isMovie) {
-      const params = buildParams('movie');
+      const params = buildParams();
       promises.push(
         fetch(`${BASE_URL}/discover/movie?${params.toString()}`, {
           headers: {
@@ -268,7 +268,7 @@ async function discoverWithFilters(query: string, filters: Filters): Promise<Sea
 
     // Fetch TV shows if needed
     if (isSeries) {
-      const params = buildParams('tv');
+      const params = buildParams();
       promises.push(
         fetch(`${BASE_URL}/discover/tv?${params.toString()}`, {
           headers: {

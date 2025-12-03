@@ -32,9 +32,9 @@ export default function MovieCard({ movie, variant = 'grid' }: MovieCardProps) {
   if (variant === 'list') {
     return (
       <Link href={`/movie/${movie.imdbID}`}>
-        <div className="flex gap-4 bg-white/5 backdrop-blur-sm rounded-xl p-3 
-                      hover:bg-white/10 transition-all duration-300 
-                      border border-white/5 hover:border-purple-500/30
+        <div className="flex gap-4 bg-card backdrop-blur-sm rounded-xl p-3 
+                      hover:bg-card/80 transition-all duration-300 
+                      border border-border hover:border-purple-500/30
                       group cursor-pointer h-full">
           <div className="relative w-20 sm:w-24 aspect-[2/3] flex-shrink-0 rounded-lg overflow-hidden shadow-lg">
             <Image
@@ -48,10 +48,10 @@ export default function MovieCard({ movie, variant = 'grid' }: MovieCardProps) {
           </div>
           <div className="flex-1 flex flex-col justify-between py-1">
             <div>
-              <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-purple-400 transition-colors line-clamp-2">
+              <h3 className="text-lg sm:text-xl font-bold text-foreground group-hover:text-purple-400 transition-colors line-clamp-2">
                 {movie.Title}
               </h3>
-              <p className="text-white/60 mt-1 text-sm">
+              <p className="text-muted mt-1 text-sm">
                 {movie.Year} • <span className="capitalize">{movie.Type}</span>
               </p>
             </div>
@@ -61,7 +61,7 @@ export default function MovieCard({ movie, variant = 'grid' }: MovieCardProps) {
                         border flex items-center gap-2 mt-2
                         ${favorite
                   ? 'bg-purple-500/20 border-purple-500/50 text-purple-300'
-                  : 'bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:text-white'
+                  : 'bg-card border-border text-muted hover:bg-card/80 hover:text-foreground'
                 }`}
             >
               {favorite ? <p className='flex gap-2'><Heart size={16} className='fill-red-600 text-red-600'></Heart>Guardado</p> : <p className='flex gap-2'><Heart size={16}></Heart>Guardar</p>}
@@ -74,8 +74,8 @@ export default function MovieCard({ movie, variant = 'grid' }: MovieCardProps) {
 
   return (
     <Link href={`/movie/${movie.imdbID}`} className="block h-full">
-      <div className="group relative bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden
-                    border border-white/5 hover:border-purple-500/30
+      <div className="group relative bg-card backdrop-blur-sm rounded-2xl overflow-hidden
+                    border border-border hover:border-purple-500/30
                     transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl
                     hover:shadow-purple-500/20 cursor-pointer h-full flex flex-col">
         <div className="relative aspect-[2/3] overflow-hidden">
@@ -103,16 +103,16 @@ export default function MovieCard({ movie, variant = 'grid' }: MovieCardProps) {
           </button>
         </div>
 
-        <div className="p-4 flex-1 flex flex-col justify-between bg-gradient-to-b from-white/5 to-transparent">
+        <div className="p-4 flex-1 flex flex-col justify-between bg-gradient-to-b from-card to-transparent">
           <div>
-            <h3 className="text-lg font-bold text-white line-clamp-2 leading-tight
+            <h3 className="text-lg font-bold text-foreground line-clamp-2 leading-tight
                          group-hover:text-purple-400 transition-colors">
               {movie.Title}
             </h3>
           </div>
-          <div className="flex items-center justify-between mt-3 pt-3 border-t border-white/5">
-            <p className="text-white/60 text-sm font-medium">{movie.Year}</p>
-            <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-white/80 text-xs font-semibold uppercase tracking-wider border border-white/5">
+          <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
+            <p className="text-muted text-sm font-medium">{movie.Year}</p>
+            <span className="px-2.5 py-0.5 rounded-full bg-card text-muted text-xs font-semibold uppercase tracking-wider border border-border">
               {movie.Type}
             </span>
           </div>

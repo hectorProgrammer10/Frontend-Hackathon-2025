@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { X } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 
 interface SearchBarProps {
   initialQuery?: string;
@@ -46,18 +46,18 @@ export default function SearchBar({
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={placeholder}
-          className="w-full pl-6 pr-32 md:pr-40 py-4 text-base md:text-lg bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl 
-                   text-white placeholder-white/40 outline-none
-                   focus:border-purple-500/50 focus:bg-white/10 focus:shadow-lg focus:shadow-purple-500/10
+          className="w-full pl-6 pr-32 md:pr-40 py-4 text-base md:text-lg bg-card backdrop-blur-xl border border-border rounded-2xl 
+                   text-foreground placeholder-muted outline-none
+                   focus:border-purple-500/50 focus:bg-card/80 focus:shadow-lg focus:shadow-purple-500/10
                    transition-all duration-300
-                   hover:border-white/20 hover:bg-white/10"
+                   hover:border-border hover:bg-card/80"
         />
         <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
           {query && (
             <button
               type="button"
               onClick={handleClear}
-              className="p-2 text-white/40 hover:text-white transition-colors hover:bg-white/10 rounded-full"
+              className="p-2 text-muted hover:text-foreground transition-colors hover:bg-card/80 rounded-full"
               aria-label="Clear search"
             >
               <X size={20} />
@@ -73,7 +73,7 @@ export default function SearchBar({
             aria-label="Search"
           >
             <span className="hidden md:block">Buscar</span>
-            <span className="md:hidden text-xl">🔍</span>
+            <span className="md:hidden text-xl"><Search size={16} /></span>
           </button>
         </div>
       </div>

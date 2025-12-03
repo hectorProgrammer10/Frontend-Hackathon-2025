@@ -10,7 +10,7 @@ import Image from 'next/image';
 import TrailerPlayer from '@/components/features/TrailerPlayer';
 import SimilarMovies from '@/components/features/SimilarMovies';
 import ShareButton from '@/components/features/ShareButton';
-import { Circle, Film, Heart, Star, Video, Youtube } from 'lucide-react';
+import { Circle, Heart, Star, Youtube } from 'lucide-react';
 
 export default function MovieDetailPage() {
   const params = useParams();
@@ -44,7 +44,7 @@ export default function MovieDetailPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <Link
           href="/search"
-          className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors"
+          className="inline-flex items-center gap-2 text-muted hover:text-foreground transition-colors"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -93,18 +93,18 @@ export default function MovieDetailPage() {
           <div className="lg:w-2/3 space-y-8">
             {/* Title & Ratings */}
             <div>
-              <h1 className="text-4xl md:text-5xl font-black text-white mb-4">
+              <h1 className="text-4xl md:text-5xl font-black text-foreground mb-4">
                 {movie.Title}
               </h1>
 
               <div className="flex flex-wrap items-center gap-4 mb-6">
-                <span className="px-4 py-2 rounded-full bg-white/10 text-white font-semibold">
+                <span className="px-4 py-2 rounded-full bg-card text-foreground font-semibold">
                   {movie.Year}
                 </span>
-                <span className="px-4 py-2 rounded-full bg-white/10 text-white font-semibold">
+                <span className="px-4 py-2 rounded-full bg-card text-foreground font-semibold">
                   {movie.Rated}
                 </span>
-                <span className="px-4 py-2 rounded-full bg-white/10 text-white font-semibold">
+                <span className="px-4 py-2 rounded-full bg-card text-foreground font-semibold">
                   {movie.Runtime}
                 </span>
                 <span className="px-4 py-2 rounded-full bg-purple-500/20 text-purple-300 font-semibold">
@@ -132,72 +132,72 @@ export default function MovieDetailPage() {
             </div>
 
             {/* Plot */}
-            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-              <h2 className="text-2xl font-bold text-white mb-4">Plot</h2>
-              <p className="text-white/80 text-lg leading-relaxed">{movie.Plot}</p>
+            <div className="bg-card backdrop-blur-sm rounded-2xl p-6 border border-border">
+              <h2 className="text-2xl font-bold text-foreground mb-4">Plot</h2>
+              <p className="text-muted text-lg leading-relaxed">{movie.Plot}</p>
             </div>
 
             {/* Details Grid */}
             <div className="grid md:grid-cols-2 gap-6">
               {movie.Genre && movie.Genre !== 'N/A' && (
-                <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-                  <h3 className="text-white/60 text-sm font-semibold mb-2">Genre</h3>
-                  <p className="text-white text-lg">{movie.Genre}</p>
+                <div className="bg-card backdrop-blur-sm rounded-xl p-6 border border-border">
+                  <h3 className="text-muted text-sm font-semibold mb-2">Genre</h3>
+                  <p className="text-foreground text-lg">{movie.Genre}</p>
                 </div>
               )}
 
               {movie.Director && movie.Director !== 'N/A' && (
-                <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-                  <h3 className="text-white/60 text-sm font-semibold mb-2">Director</h3>
-                  <p className="text-white text-lg">{movie.Director}</p>
+                <div className="bg-card backdrop-blur-sm rounded-xl p-6 border border-border">
+                  <h3 className="text-muted text-sm font-semibold mb-2">Director</h3>
+                  <p className="text-foreground text-lg">{movie.Director}</p>
                 </div>
               )}
 
               {movie.Writer && movie.Writer !== 'N/A' && (
-                <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-                  <h3 className="text-white/60 text-sm font-semibold mb-2">Writer</h3>
-                  <p className="text-white text-lg">{movie.Writer}</p>
+                <div className="bg-card backdrop-blur-sm rounded-xl p-6 border border-border">
+                  <h3 className="text-muted text-sm font-semibold mb-2">Writer</h3>
+                  <p className="text-foreground text-lg">{movie.Writer}</p>
                 </div>
               )}
 
               {movie.Actors && movie.Actors !== 'N/A' && (
-                <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-                  <h3 className="text-white/60 text-sm font-semibold mb-2">Cast</h3>
-                  <p className="text-white text-lg">{movie.Actors}</p>
+                <div className="bg-card backdrop-blur-sm rounded-xl p-6 border border-border">
+                  <h3 className="text-muted text-sm font-semibold mb-2">Cast</h3>
+                  <p className="text-foreground text-lg">{movie.Actors}</p>
                 </div>
               )}
 
               {movie.Language && movie.Language !== 'N/A' && (
-                <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-                  <h3 className="text-white/60 text-sm font-semibold mb-2">Language</h3>
-                  <p className="text-white text-lg">{movie.Language}</p>
+                <div className="bg-card backdrop-blur-sm rounded-xl p-6 border border-border">
+                  <h3 className="text-muted text-sm font-semibold mb-2">Language</h3>
+                  <p className="text-foreground text-lg">{movie.Language}</p>
                 </div>
               )}
 
               {movie.Country && movie.Country !== 'N/A' && (
-                <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-                  <h3 className="text-white/60 text-sm font-semibold mb-2">Country</h3>
-                  <p className="text-white text-lg">{movie.Country}</p>
+                <div className="bg-card backdrop-blur-sm rounded-xl p-6 border border-border">
+                  <h3 className="text-muted text-sm font-semibold mb-2">Country</h3>
+                  <p className="text-foreground text-lg">{movie.Country}</p>
                 </div>
               )}
 
               {movie.Awards && movie.Awards !== 'N/A' && (
-                <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 md:col-span-2">
-                  <h3 className="text-white/60 text-sm font-semibold mb-2">Awards</h3>
-                  <p className="text-white text-lg">{movie.Awards}</p>
+                <div className="bg-card backdrop-blur-sm rounded-xl p-6 border border-border md:col-span-2">
+                  <h3 className="text-muted text-sm font-semibold mb-2">Awards</h3>
+                  <p className="text-foreground text-lg">{movie.Awards}</p>
                 </div>
               )}
             </div>
 
             {/* Additional Ratings */}
             {movie.Ratings && movie.Ratings.length > 0 && (
-              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                <h2 className="text-2xl font-bold text-white mb-4">Other Ratings</h2>
+              <div className="bg-card backdrop-blur-sm rounded-2xl p-6 border border-border">
+                <h2 className="text-2xl font-bold text-foreground mb-4">Other Ratings</h2>
                 <div className="grid md:grid-cols-3 gap-4">
                   {movie.Ratings.map((rating, index) => (
-                    <div key={index} className="text-center p-4 bg-white/5 rounded-xl">
-                      <div className="text-white/60 text-sm mb-1">{rating.Source}</div>
-                      <div className="text-white text-xl font-bold">{rating.Value}</div>
+                    <div key={index} className="text-center p-4 bg-card rounded-xl">
+                      <div className="text-muted text-sm mb-1">{rating.Source}</div>
+                      <div className="text-foreground text-xl font-bold">{rating.Value}</div>
                     </div>
                   ))}
                 </div>
@@ -206,15 +206,15 @@ export default function MovieDetailPage() {
 
             {/* Trailer Section */}
             <div className="space-y-4">
-              <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+              <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
                 <span className="text-3xl"><Youtube size={28}></Youtube></span> Official Trailer
               </h2>
               <TrailerPlayer title={movie.Title} year={movie.Year} />
             </div>
 
             {/* Similar Movies Section */}
-            <div className="pt-8 border-t border-white/10">
-              <SimilarMovies genre={movie.Genre} currentId={movie.imdbID} />
+            <div className="pt-8 border-t border-border">
+              <SimilarMovies currentId={movie.imdbID} />
             </div>
           </div>
         </div>
