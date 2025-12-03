@@ -1,0 +1,40 @@
+<!-- SVG CODE START -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+            <!-- Body / Fur -->
+            <path d="M256 42c-70 0-130 30-160 80 -40 10-80 50-80 110 0 50 30 90 70 110 -10 20-10 50 10 70 30 30 80 40 160 40s130-10 160-40c20-20 20-50 10-70 40-20 70-60 70-110 0-60-40-100-80-110 -30-50-90-80-160-80z" fill="#20B2AA"/>
+            <path d="M256 50c-60 0-110 25-140 70 -35 10-65 45-65 95 0 40 25 75 60 90 20 50 85 87 145 87s125-37 145-87c35-15 60-50 60-90 0-50-30-85-65-95 -30-45-80-70-140-70z" fill="#40E0D0"/>
+            
+            <!-- Mouth Background -->
+            <path d="M130 250c0 0 50 120 126 120 76 0 126-120 126-120H130z" fill="#5D1822"/>
+            
+            <!-- The Drive/Tray being bitten -->
+            <!-- Back part of drive -->
+            <path d="M150 280 L362 280 L380 320 L132 320 Z" fill="#606060"/>
+            <!-- Front Face Yellow -->
+            <rect x="120" y="280" width="272" height="40" rx="5" fill="#FFC822" stroke="#E59400" stroke-width="4"/>
+            <!-- CD Circle inside -->
+            <ellipse cx="200" cy="280" rx="60" ry="15" fill="#D3D3D3"/>
+            <ellipse cx="200" cy="280" rx="15" ry="4" fill="#A9A9A9"/>
+            
+            <!-- Teeth Bottom -->
+            <path d="M150 330l15-30h20l15 30z M210 330l15-30h20l15 30z M270 330l15-30h20l15 30z" fill="white"/>
+
+            <!-- Teeth Top (Overlapping the drive) -->
+            <path d="M140 250c0 0 10 40 30 40s30-40 30-40" fill="white"/>
+            <path d="M205 250c0 0 10 40 30 40s30-40 30-40" fill="white"/>
+            <path d="M270 250c0 0 10 40 30 40s30-40 30-40" fill="white"/>
+            <path d="M335 250c0 0 10 40 30 40s30-40 30-40" fill="white"/>
+
+            <!-- Eyes -->
+            <g transform="translate(0, -10)">
+                <circle cx="190" cy="180" r="55" fill="white" stroke="#20B2AA" stroke-width="4"/>
+                <circle cx="322" cy="180" r="55" fill="white" stroke="#20B2AA" stroke-width="4"/>
+                <circle cx="190" cy="180" r="20" fill="black"/>
+                <circle cx="322" cy="180" r="20" fill="black"/>
+                <circle cx="200" cy="170" r="8" fill="white"/>
+                <circle cx="332" cy="170" r="8" fill="white"/>
+            </g>
+            
+            <!-- Drive Debris/Crumbs -->
+            <path d="M110 300l-10 10l10 5z M400 310l10-10l5 15z" fill="#606060"/>
+        </svg>

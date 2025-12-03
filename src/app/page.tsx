@@ -10,6 +10,8 @@ import { Movie } from '@/types';
 import { getTrendingMovies, getPopularSeries } from '@/lib/api/omdb';
 import { TrendingUp, Tv } from 'lucide-react';
 
+
+
 export default function HomePage() {
   const [trendingMovies, setTrendingMovies] = useState<Movie[]>([]);
   const [popularSeries, setPopularSeries] = useState<Movie[]>([]);
@@ -18,13 +20,18 @@ export default function HomePage() {
   useEffect(() => {
     const fetchHomeData = async () => {
       setLoading(true);
-      const [movies, series] = await Promise.all([
-        getTrendingMovies(),
-        getPopularSeries(),
-      ]);
-      setTrendingMovies(movies);
-      setPopularSeries(series);
-      setLoading(false);
+      try {
+        const [movies, series] = await Promise.all([
+          getTrendingMovies(),
+          getPopularSeries(),
+        ]);
+        setTrendingMovies(movies);
+        setPopularSeries(series);
+      } catch (error) {
+        console.error('Error fetching home data:', error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchHomeData();
@@ -32,6 +39,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen pb-20">
+
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-20 lg:pt-0">
         <div className="absolute inset-0 bg-gradient-to-b from-purple-900/20 via-transparent to-transparent pointer-events-none"></div>
