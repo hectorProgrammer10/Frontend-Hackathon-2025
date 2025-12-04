@@ -32,14 +32,17 @@ function SearchContent() {
 
 
   useEffect(() => {
-    if (initialQuery) {
+    // Initial search if query OR type is present
+    if (initialQuery || initialType) {
       search(initialQuery, filters);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- Only run on mount with initial query
-  }, [initialQuery]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Only run on mount
+  }, []);
 
   useEffect(() => {
-    if (query) {
+    // Trigger search when filters change, allowing empty query if filters are active
+    const hasFilters = filters.type || filters.year;
+    if (query || hasFilters || (filters.page || 1) > 1) {
       search(query, filters);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Only trigger on specific filter changes
@@ -69,6 +72,8 @@ function SearchContent() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const isBrowsing = !query && (filters.type || filters.year);
+
   return (
     <div className="min-h-screen pt-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -90,8 +95,11 @@ function SearchContent() {
             {results && results.Search && results.Search.length > 0 && (
               <div className="flex items-center justify-between mb-6">
                 <p className="text-muted">
-                  Encontrados <span className="text-foreground font-bold">{results.totalResults}</span> resultados
-                  {query && ` para "${query}"`}
+                  {isBrowsing ? (
+                    <span>Explorando <span className="text-foreground font-bold">{filters.type === 'movie' ? 'Películas' : filters.type === 'series' ? 'Series' : 'Contenido'}</span></span>
+                  ) : (
+                    <span>Encontrados <span className="text-foreground font-bold">{results.totalResults}</span> resultados {query && ` para "${query}"`}</span>
+                  )}
                 </p>
                 <div className="flex gap-2">
                   <button
@@ -123,15 +131,15 @@ function SearchContent() {
             {error && !loading && <ErrorMessage message={error} />}
 
             {/* Empty State */}
-            {!loading && !error && (!results || !results.Search || results.Search.length === 0) && query && (
+            {!loading && !error && (!results || !results.Search || results.Search.length === 0) && (query || isBrowsing) && (
               <EmptyState
                 title="No se Encontraron Resultados"
-                description={`No pudimos encontrar ningún ${filters.type === 'movie' ? 'película' : filters.type === 'series' ? 'serie' : 'contenido'} que coincida con "${query}". Intenta ajustar tu búsqueda o filtros.`}
+                description={`No pudimos encontrar ningún ${filters.type === 'movie' ? 'película' : filters.type === 'series' ? 'serie' : 'contenido'} que coincida con tu búsqueda. Intenta ajustar tus filtros.`}
               />
             )}
 
             {/* No Search Yet */}
-            {!loading && !query && (
+            {!loading && !query && !isBrowsing && !results && (
               <EmptyState
                 title="Comienza tu Búsqueda"
                 description="Ingresa el título de una película o serie en la barra de búsqueda para comenzar."

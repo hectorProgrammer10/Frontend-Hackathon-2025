@@ -18,7 +18,10 @@ export function useMovieSearch() {
   const { showToast } = useToast();
 
   const search = async (query: string, filters?: Filters) => {
-    if (!query.trim()) {
+    // Allow search if query is present OR if we have filters (browsing mode)
+    const hasFilters = filters && (filters.type || filters.genre || filters.minRating);
+
+    if (!query.trim() && !hasFilters) {
       setResults(null);
       return;
     }
