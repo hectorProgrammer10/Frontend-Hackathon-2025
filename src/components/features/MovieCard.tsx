@@ -75,9 +75,9 @@ export default function MovieCard({ movie, variant = 'grid' }: MovieCardProps) {
   return (
     <Link href={`/movie/${movie.imdbID}`} className="block h-full">
       <div className="group relative bg-card backdrop-blur-sm rounded-2xl overflow-hidden
-                    border border-border hover:border-purple-500/30
+                    border border-border hover:border-purple-500/60
                     transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl
-                    hover:shadow-purple-500/20 cursor-pointer h-full flex flex-col">
+                    hover:shadow-purple-500/30 cursor-pointer h-full flex flex-col">
         <div className="relative aspect-[2/3] overflow-hidden">
           <Image
             src={posterUrl}

@@ -2,7 +2,7 @@
 
 'use client';
 
-import { Heart, Home, Search } from 'lucide-react';
+import { Heart, Home, Search, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -73,6 +73,15 @@ export default function Navigation() {
               <span className='flex items-center gap-2'>Buscar <Search size={16}></Search></span>
             </Link>
             <Link
+              href="/smart-search"
+              className={`px-4 py-2 rounded-lg transition-all duration-200 font-medium ${isActive('/smart-search')
+                ? 'bg-white/10 text-white shadow-inner shadow-white/5'
+                : 'text-white/70 hover:text-white hover:bg-white/5'
+                }`}
+            >
+              <span className='flex items-center gap-2'>IA <Sparkles size={16} className="text-purple-400" /></span>
+            </Link>
+            <Link
               href="/favorites"
               className={`px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 font-medium ${isActive('/favorites')
                 ? 'bg-white/10 text-white shadow-inner shadow-white/5'
@@ -122,6 +131,12 @@ export default function Navigation() {
             className={`text-3xl font-bold transition-colors ${isActive('/search') ? 'text-purple-400' : 'text-white hover:text-purple-300'}`}
           >
             <span className='flex items-center gap-2'>Buscar <Search size={24}></Search></span>
+          </Link>
+          <Link
+            href="/smart-search"
+            className={`text-3xl font-bold transition-colors ${isActive('/smart-search') ? 'text-purple-400' : 'text-white hover:text-purple-300'}`}
+          >
+            <span className='flex items-center gap-2'>IA <Sparkles size={24} className="text-purple-400" /></span>
           </Link>
           <Link
             href="/favorites"
