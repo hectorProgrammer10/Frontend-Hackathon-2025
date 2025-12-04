@@ -6,7 +6,7 @@ import { searchTMDB } from '@/lib/api/tmdb';
 import MovieCard from '@/components/features/MovieCard';
 import { Movie } from '@/types';
 import { Sparkles, Loader2 } from 'lucide-react';
-import { ThemeContextType, useTheme } from '@/lib/context/ThemeContext';
+import { useTheme } from '@/lib/context/ThemeContext';
 
 export default function SmartSearchPage() {
   const [description, setDescription] = useState('');
@@ -14,7 +14,7 @@ export default function SmartSearchPage() {
   const [results, setResults] = useState<Movie[]>([]);
   const [error, setError] = useState('');
 
-  const theme: ThemeContextType = useTheme();
+  const theme = useTheme();
 
   const handleSearch = async () => {
     if (!description.trim()) return;
