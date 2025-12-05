@@ -55,12 +55,12 @@ export default function ScrollDvdAnimation() {
 
   const dvdX = useTransform(scrollYProgress, [0, 1], ['3vw', '45vw']);
   const dvdY = useTransform(scrollYProgress, [0, 1], ['90vh', '90vh']);
-  const dvdScale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
+  const dvdScale = useTransform(scrollYProgress, [0, 1], [0.9, 0.6]);
   const dvdRotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
 
-  const lectorX = useTransform(scrollYProgress, [0, 1], ['88vw', '45vw']);
+  const lectorX = useTransform(scrollYProgress, [0, 1], ['87vw', '45vw']);
   const lectorY = useTransform(scrollYProgress, [0, 1], ['90vh', '90vh']);
-  const lectorScale = useTransform(scrollYProgress, [0, 1], [1, 1.5]);
+  const lectorScale = useTransform(scrollYProgress, [0, 1], [0.9, 1.3]);
 
   // Glow effect at the end
   const glowOpacity = useTransform(scrollYProgress, [0.9, 1], [0, 1]);
@@ -134,6 +134,8 @@ export default function ScrollDvdAnimation() {
         <motion.img
           src="/dvd.svg"
           alt="DVD"
+          initial={{ opacity: 0.6 }}
+          animate={{ opacity: 0.6, scale: 0.5 }}
           style={{
             position: 'absolute',
             left: 0,
@@ -152,6 +154,8 @@ export default function ScrollDvdAnimation() {
         <motion.img
           src="/lectorDvd.svg"
           alt="Lector DVD"
+          initial={{ opacity: 0.9 }}
+          animate={{ opacity: 0.6, scale: 0.5 }}
           style={{
             position: 'absolute',
             left: 0,
