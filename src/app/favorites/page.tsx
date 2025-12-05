@@ -5,7 +5,8 @@
 import { useFavorites } from '@/lib/hooks';
 import MovieCard from '@/components/features/MovieCard';
 import { LoadingSpinner, EmptyState } from '@/components/ui/Loading';
-import { Star } from 'lucide-react';
+import { Star, Plus } from 'lucide-react';
+import Link from 'next/link';
 
 export default function FavoritesPage() {
   const { favorites, loading } = useFavorites();
@@ -47,6 +48,16 @@ export default function FavoritesPage() {
             {favorites.map((movie) => (
               <MovieCard key={movie.imdbID} movie={movie} />
             ))}
+
+            {/* Add to Favorites Card */}
+            <Link href="/search" className="group relative aspect-[2/3] rounded-2xl overflow-hidden bg-white/5 border-2 border-dashed border-white/20 hover:border-purple-500/50 hover:bg-purple-500/10 transition-all duration-300 flex flex-col items-center justify-center gap-4">
+              <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center group-hover:scale-110 group-hover:bg-purple-500/20 transition-all duration-300">
+                <Plus size={38} className="text-white/50 group-hover:text-purple-400 transition-colors" />
+              </div>
+              <span className="text-white/50 font-medium group-hover:text-purple-300 transition-colors">
+                Añadir a favoritos
+              </span>
+            </Link>
           </div>
         )}
       </div>

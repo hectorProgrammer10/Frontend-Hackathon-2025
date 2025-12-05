@@ -55,12 +55,12 @@ export default function Pagination({
   };
 
   return (
-    <div className="flex items-center justify-center gap-2 mt-8">
+    <div className="flex items-center justify-center gap-2 mt-8 bg-card py-1 rounded-xl">
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
         className="px-4 py-2 rounded-lg bg-card text-foreground
-                 hover:bg-card/80 disabled:opacity-40 disabled:cursor-not-allowed
+                 hover:bg-card/80 disabled:opacity-60 disabled:cursor-not-allowed
                  transition-all duration-200"
       >
         Previous
@@ -76,7 +76,7 @@ export default function Pagination({
               ${page === currentPage
                 ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold'
                 : page === '...'
-                  ? 'bg-transparent text-muted cursor-default'
+                  ? 'bg-card text-muted cursor-default'
                   : 'bg-card text-foreground hover:bg-card/80'
               }`}
           >
