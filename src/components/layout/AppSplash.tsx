@@ -10,7 +10,7 @@ export default function AppSplash() {
     // Hide after 1 second
     const timer = setTimeout(() => {
       setShowSplash(false);
-    }, 2000);
+    }, 1600);
 
     return () => clearTimeout(timer);
   }, []);

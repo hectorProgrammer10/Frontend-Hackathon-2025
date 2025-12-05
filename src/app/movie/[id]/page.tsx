@@ -205,7 +205,7 @@ export default function MovieDetailPage() {
             )}
 
             {/* Trailer Section */}
-            <div className="space-y-4">
+            <div className="space-y-4 z-10">
               <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
                 <span className="text-3xl"><Youtube size={28}></Youtube></span> Official Trailer
               </h2>

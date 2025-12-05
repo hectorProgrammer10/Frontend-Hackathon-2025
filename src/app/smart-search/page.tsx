@@ -7,6 +7,7 @@ import MovieCard from '@/components/features/MovieCard';
 import { Movie } from '@/types';
 import { Sparkles, Loader2 } from 'lucide-react';
 import { useTheme } from '@/lib/context/ThemeContext';
+import NeuralNetworkLoader from '@/components/ui/NeuralNetworkLoader';
 
 export default function SmartSearchPage() {
   const [description, setDescription] = useState('');
@@ -110,6 +111,12 @@ export default function SmartSearchPage() {
           </div>
         )}
       </div>
+
+      {isLoading && (
+        <div className="max-w-3xl mx-auto mb-16">
+          <NeuralNetworkLoader />
+        </div>
+      )}
 
       {results.length > 0 && (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-in fade-in slide-in-from-bottom-8 duration-700">

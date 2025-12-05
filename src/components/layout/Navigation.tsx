@@ -41,10 +41,10 @@ export default function Navigation() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group relative z-50">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 
+            <div className="w-10 h-6 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 
                           flex items-center justify-center group-hover:scale-110 
-                          transition-transform duration-300 shadow-lg shadow-purple-500/20">
-              <span className="w-10 h-10"><img src="/iconM.svg"></img></span>
+                          transition-transform duration-300 shadow-lg shadow-purple-500/30">
+              <span className="w-10 h-6"><img className='scale-110' src="/iconoPage.svg"></img></span>
             </div>
             <span className="text-2xl font-black bg-gradient-to-r from-white via-purple-200 to-white 
                            bg-clip-text text-transparent tracking-tight">

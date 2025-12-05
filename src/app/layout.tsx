@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 };
 
 import AppSplash from "@/components/layout/AppSplash";
+import ScrollDvdAnimation from "@/components/features/ScrollDvdAnimation";
 
 export default function RootLayout({
   children,
@@ -25,6 +26,7 @@ export default function RootLayout({
         <ThemeProvider>
           <ToastProvider>
             <AppSplash />
+            <ScrollDvdAnimation />
             <Navigation />
             <main className="pt-16">
               {children}
