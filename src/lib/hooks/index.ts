@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Movie, MovieDetail, SearchResponse, Filters } from '@/types';
 import { searchMovies, getMovieDetails } from '@/lib/api/omdb';
 import { getFavorites, toggleFavorite as toggleFav, isFavorite } from '@/lib/utils/favorites';
@@ -17,7 +17,7 @@ export function useMovieSearch() {
   const [error, setError] = useState<string | null>(null);
   const { showToast } = useToast();
 
-  const search = async (query: string, filters?: Filters) => {
+  const search = useCallback(async (query: string, filters?: Filters) => {
     // Allow search if query is present OR if we have filters (browsing mode)
     const hasFilters = filters && (filters.type || filters.genre || filters.minRating);
 
@@ -53,7 +53,7 @@ export function useMovieSearch() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [showToast]);
 
   return { results, loading, error, search };
 }
@@ -125,7 +125,7 @@ export function useFavorites() {
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
-  const toggleFavorite = (item: Movie) => {
+  const toggleFavorite = useCallback((item: Movie) => {
     const newState = toggleFav(item);
     setFavorites(getFavorites());
 
@@ -136,15 +136,15 @@ export function useFavorites() {
     }
 
     return newState;
-  };
+  }, [showToast]);
 
-  const checkIsFavorite = (imdbID: string) => {
+  const checkIsFavorite = useCallback((imdbID: string) => {
     return isFavorite(imdbID);
-  };
+  }, []);
 
-  const refreshFavorites = () => {
+  const refreshFavorites = useCallback(() => {
     setFavorites(getFavorites());
-  };
+  }, []);
 
   return {
     favorites,

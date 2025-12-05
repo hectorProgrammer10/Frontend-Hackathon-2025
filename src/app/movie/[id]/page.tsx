@@ -7,10 +7,17 @@ import { useMovieDetails, useFavorites } from '@/lib/hooks';
 import { LoadingSpinner, ErrorMessage } from '@/components/ui/Loading';
 import Link from 'next/link';
 import Image from 'next/image';
-import TrailerPlayer from '@/components/features/TrailerPlayer';
-import SimilarMovies from '@/components/features/SimilarMovies';
+import dynamic from 'next/dynamic';
 import ShareButton from '@/components/features/ShareButton';
 import { Circle, Heart, Star, Youtube } from 'lucide-react';
+
+// Lazy load heavy components
+const TrailerPlayer = dynamic(() => import('@/components/features/TrailerPlayer'), {
+  loading: () => <div className="h-64 bg-card animate-pulse rounded-xl" />,
+});
+const SimilarMovies = dynamic(() => import('@/components/features/SimilarMovies'), {
+  loading: () => <div className="h-64 bg-card animate-pulse rounded-xl" />,
+});
 
 export default function MovieDetailPage() {
   const params = useParams();

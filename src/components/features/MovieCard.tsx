@@ -5,7 +5,7 @@
 import { Movie } from '@/types';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useCallback, memo } from 'react';
 import { useFavorites } from '@/lib/hooks';
 import { Heart } from 'lucide-react';
 
@@ -14,16 +14,20 @@ interface MovieCardProps {
   variant?: 'grid' | 'list';
 }
 
-export default function MovieCard({ movie, variant = 'grid' }: MovieCardProps) {
+function MovieCard({ movie, variant = 'grid' }: MovieCardProps) {
   const { toggleFavorite, isFavorite } = useFavorites();
   const [imageError, setImageError] = useState(false);
   const favorite = isFavorite(movie.imdbID);
 
-  const handleToggleFavorite = (e: React.MouseEvent) => {
+  const handleToggleFavorite = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     toggleFavorite(movie);
-  };
+  }, [movie, toggleFavorite]);
+
+  const handleImageError = useCallback(() => {
+    setImageError(true);
+  }, []);
 
   const posterUrl = !imageError && movie.Poster !== 'N/A'
     ? movie.Poster
@@ -41,7 +45,7 @@ export default function MovieCard({ movie, variant = 'grid' }: MovieCardProps) {
               src={posterUrl}
               alt={movie.Title}
               fill
-              onError={() => setImageError(true)}
+              onError={handleImageError}
               className="object-cover group-hover:scale-110 transition-transform duration-500"
               sizes="(max-width: 640px) 80px, 96px"
             />
@@ -83,7 +87,7 @@ export default function MovieCard({ movie, variant = 'grid' }: MovieCardProps) {
             src={posterUrl}
             alt={movie.Title}
             fill
-            onError={() => setImageError(true)}
+            onError={handleImageError}
             className="object-cover group-hover:scale-110 transition-transform duration-700"
             sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
@@ -121,3 +125,6 @@ export default function MovieCard({ movie, variant = 'grid' }: MovieCardProps) {
     </Link>
   );
 }
+
+// Memoize to prevent re-renders when props don't change
+export default memo(MovieCard);

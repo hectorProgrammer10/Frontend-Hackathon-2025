@@ -5,7 +5,7 @@
 import { Heart, Home, Search, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import ThemeToggle from '@/components/features/ThemeToggle';
 
 export default function Navigation() {
@@ -13,14 +13,15 @@ export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Handle scroll effect
+  // Handle scroll effect - memoized to prevent recreation
+  const handleScroll = useCallback(() => {
+    setScrolled(window.scrollY > 20);
+  }, []);
+
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [handleScroll]);
 
   // Close menu when route changes
   useEffect(() => {
@@ -41,13 +42,13 @@ export default function Navigation() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group relative z-50">
-            <div className="w-10 h-6 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 
+            <div className="w-10 h-7 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 
                           flex items-center justify-center group-hover:scale-110 
                           transition-transform duration-300 shadow-lg shadow-purple-500/30">
               <span className="w-10 h-6"><img className='scale-110' src="/iconoPage.svg"></img></span>
             </div>
             <span className="text-2xl font-black bg-gradient-to-r from-white via-purple-200 to-white 
-                           bg-clip-text text-transparent tracking-tight">
+                           bg-clip-text text-sky-300 tracking-tight">
               ComePelículas
             </span>
           </Link>
