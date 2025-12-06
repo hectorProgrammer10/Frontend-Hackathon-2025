@@ -1,10 +1,8 @@
-// Loading Component
-
 import { AlertCircle, Search } from "lucide-react";
 
 export function LoadingSpinner() {
   return (
-    <div className="flex items-center justify-center p-12">
+    <div role="status" aria-label="Loading" className="flex items-center justify-center p-12">
       <div className="relative w-16 h-16">
         <div className="absolute inset-0 rounded-full border-4 border-purple-500/20"></div>
         <div className="absolute inset-0 rounded-full border-4 border-transparent 
@@ -14,10 +12,10 @@ export function LoadingSpinner() {
   );
 }
 
-export function LoadingSkeleton() {
+export function LoadingSkeleton({ count = 10 }: { count?: number }) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-      {Array.from({ length: 10 }).map((_, i) => (
+      {Array.from({ length: count }).map((_, i) => (
         <div key={i} className="animate-pulse">
           <div className="aspect-[2/3] bg-card/50 rounded-2xl mb-3"></div>
           <div className="h-4 bg-card/50 rounded mb-2"></div>
@@ -30,7 +28,7 @@ export function LoadingSkeleton() {
 
 export function ErrorMessage({ message }: { message: string }) {
   return (
-    <div className="flex flex-col items-center justify-center p-12 text-center">
+    <div role="alert" className="flex flex-col items-center justify-center p-12 text-center">
       <div className="w-20 h-20 rounded-full bg-red-500/20 flex items-center justify-center mb-4">
         <span className="text-4xl"><AlertCircle size={36} className="text-yellow-500"></AlertCircle></span>
       </div>

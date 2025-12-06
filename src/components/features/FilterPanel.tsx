@@ -1,5 +1,3 @@
-// FilterPanel Component
-
 'use client';
 
 import { Filters } from '@/types';
@@ -23,7 +21,7 @@ export default function FilterPanel({ filters, onFilterChange }: FilterPanelProp
     onFilterChange({
       ...filters,
       [key]: value || undefined,
-      page: 1, // Reset to first page when filters change
+      page: 1,
     });
   };
 
@@ -42,7 +40,6 @@ export default function FilterPanel({ filters, onFilterChange }: FilterPanelProp
       </div>
 
       <div className="space-y-6">
-        {/* Type Filter */}
         <div>
           <label className="block text-muted text-sm font-semibold mb-2">
             Tipo de Contenido
@@ -61,7 +58,6 @@ export default function FilterPanel({ filters, onFilterChange }: FilterPanelProp
           </select>
         </div>
 
-        {/* Year Filter */}
         <div>
           <label className="block text-muted text-sm font-semibold mb-2">
             Año de Estreno
@@ -82,7 +78,6 @@ export default function FilterPanel({ filters, onFilterChange }: FilterPanelProp
           </select>
         </div>
 
-        {/* Genre Filter (Client-side) */}
         <div>
           <label className="block text-muted text-sm font-semibold mb-2">
             Género <span className="text-muted/60 text-xs font-normal">(Página Actual)</span>
@@ -103,7 +98,6 @@ export default function FilterPanel({ filters, onFilterChange }: FilterPanelProp
           </select>
         </div>
 
-        {/* Min Rating Filter (Client-side) */}
         <div>
           <label className="block text-muted text-sm font-semibold mb-2">
             Calificación Mínima <span className="text-muted/60 text-xs font-normal">(Página Actual)</span>

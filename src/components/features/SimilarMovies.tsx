@@ -1,5 +1,3 @@
-// SimilarMovies Component
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -25,36 +23,26 @@ export default function SimilarMovies({ currentId }: Omit<SimilarMoviesProps, 'g
       let tmdbId: number;
       let type: 'movie' | 'series';
 
-      // 1. Try to parse as TMDB ID
       const tmdbInfo = parseTMDBId(currentId);
 
       if (tmdbInfo) {
-        console.log('[SimilarMovies] Parsed TMDB info:', tmdbInfo);
         tmdbId = tmdbInfo.id;
         type = tmdbInfo.type === 'movie' ? 'movie' : 'series';
       } else if (currentId.startsWith('tt')) {
-        // 2. If it's an IMDb ID, look it up
-        console.log('[SimilarMovies] Detected IMDb ID, looking up in TMDB...');
         const found = await findTMDBIdFromIMDb(currentId);
 
         if (found) {
-          console.log('[SimilarMovies] Found TMDB ID from IMDb:', found);
           tmdbId = found.id;
           type = found.type === 'movie' ? 'movie' : 'series';
         } else {
-          console.log('[SimilarMovies] Could not find TMDB ID for IMDb ID:', currentId);
           setLoading(false);
           return;
         }
       } else {
-        console.log('[SimilarMovies] Unknown ID format:', currentId);
         setLoading(false);
         return;
       }
-
-      // Use TMDB's similar content endpoint
       const similar = await getSimilarContentTMDB(tmdbId, type);
-      console.log('[SimilarMovies] Received similar movies:', similar.length);
       setMovies(similar);
       setLoading(false);
     };

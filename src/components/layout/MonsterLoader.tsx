@@ -175,7 +175,6 @@ const loaderStyles = `
   .dvd-disc { fill: #eef; stroke: #ccc; }
 `;
 
-// --- COMPONENTE SVG: MonsterLoader ---
 interface MonsterLoaderProps {
   isLoading: boolean;
   onFinished?: () => void;
@@ -188,10 +187,8 @@ const MonsterLoader: React.FC<MonsterLoaderProps> = ({ isLoading, onFinished }) 
 
   useEffect(() => {
     if (!isLoading && !hasStartedFadingRef.current) {
-      // Marcar que hemos iniciado el fade
       hasStartedFadingRef.current = true;
 
-      // Programar la ocultación después del fade
       hideTimeoutRef.current = setTimeout(() => {
         setMounted(false);
         if (onFinished) {
@@ -200,7 +197,6 @@ const MonsterLoader: React.FC<MonsterLoaderProps> = ({ isLoading, onFinished }) 
       }, 500);
     }
 
-    // Cleanup
     return () => {
       if (hideTimeoutRef.current) {
         clearTimeout(hideTimeoutRef.current);
@@ -211,7 +207,6 @@ const MonsterLoader: React.FC<MonsterLoaderProps> = ({ isLoading, onFinished }) 
 
   if (!mounted) return null;
 
-  // Derivar el estado de fading directamente de isLoading
   const isFading = !isLoading;
 
   return (
@@ -219,7 +214,6 @@ const MonsterLoader: React.FC<MonsterLoaderProps> = ({ isLoading, onFinished }) 
       <style>{loaderStyles}</style>
       <div className={`loader-wrapper ${isFading ? 'fading' : ''}`}>
 
-        {/* SVG CONTAINER - 300x300px ViewBox */}
         <svg
           width="200"
           height="200"
@@ -230,7 +224,6 @@ const MonsterLoader: React.FC<MonsterLoaderProps> = ({ isLoading, onFinished }) 
           <title id="loader-title">Monstruo comiendo un lector DVD</title>
 
           <defs>
-            {/* Definimos un clipPath con la forma del interior de la boca */}
             <clipPath id="mouth-clip">
               <path d="M40,110 Q100,180 160,110 L160,125 Q100,200 40,125 Z" />
             </clipPath>
@@ -325,13 +318,12 @@ const MonsterLoader: React.FC<MonsterLoaderProps> = ({ isLoading, onFinished }) 
                 </g>
               </g>
 
-              {/* LABIO INFERIOR: Bajado el borde superior (Q100,140 en vez de Q100,130) para abrir más la boca */}
+              {/* LABIO INFERIOR */}
               <path className="monster-skin" d="M35,110 Q100,190 165,110 Q100,140 35,110 Z" stroke="#043333" strokeWidth="3" />
             </g>
           </g>
 
           {/* --- COMIDA: LECTOR DVD --- */}
-          {/* MOVÍ EL DVD FUERA DEL GRUPO DEL MONSTRUO Y LO ENVOLVÍ EN UN GRUPO DE POSICIONAMIENTO */}
           <g transform="translate(100, 140)">
             <g className="dvd-group">
 

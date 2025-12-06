@@ -1,185 +1,98 @@
-# 🎬 MovieDB - OMDb Movie & Series Explorer
+![iconoPage](/iconoPage.svg)
+# ComePelículas - TMDB Movie App
 
-A modern, responsive web application built with Next.js 14+ and Tailwind CSS that allows users to search, explore, and save their favorite movies and TV series using the OMDb API.
+Una aplicación moderna para explorar películas y series, construida con Next.js y la API de TMDB.
 
-![Next.js](https://img.shields.io/badge/Next.js-14+-black?style=for-the-badge&logo=next.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue?style=for-the-badge&logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0+-38bdf8?style=for-the-badge&logo=tailwind-css)
+## Descripción del Proyecto
 
-## ✨ Features
+ComePelículas es una plataforma web interactiva que permite a los usuarios buscar, descubrir y guardar sus películas y series favoritas. La aplicación ofrece una experiencia de usuario fluida con animaciones modernas, un diseño responsivo y características avanzadas como búsqueda inteligente impulsada por IA.
 
-### 🏠 Home Page
-- **Prominent Search Bar** - Quick access to search functionality
-- **Trending Movies** - Curated selection of popular films
-- **Popular Series** - Featured TV shows
-- **Quick Filters** - Genre-based navigation buttons
-- **Modern Design** - Glassmorphism effects and gradient animations
+## Instrucciones de Instalación y Ejecución
 
-### 🔍 Search Results Page
-- **Advanced Filtering** - Filter by type (movie/series), year
-- **Multiple View Modes** - Toggle between grid and list layouts
-- **Pagination** - Navigate through large result sets
-- **Real-time Results** - Dynamic search with loading states
-- **Error Handling** - Graceful error messages and empty states
+Sigue estos pasos para ejecutar el proyecto en tu entorno local:
 
-### 🎥 Movie/Series Detail Page
-- **Comprehensive Information** - Plot, cast, director, ratings, and more
-- **IMDb & Metascore** - Display ratings from multiple sources
-- **High-Quality Poster** - Full-resolution movie artwork
-- **Add to Favorites** - One-click favorite management
-- **Responsive Layout** - Optimized for all screen sizes
+1.  **Clonar el repositorio:**
+    ```bash
+    git clone <url-del-repositorio>
+    cd omdb-movie-app
+    ```
 
-### ❤️ Favorites Page
-- **Persistent Storage** - localStorage integration
-- **Quick Access** - View all saved movies and series
-- **Remove Functionality** - Manage your collection
-- **Empty State** - Helpful prompts for new users
+2.  **Instalar dependencias:**
+    ```bash
+    npm install
+    ```
 
-## 🚀 Getting Started
+3.  **Configurar variables de entorno:**
+    Crea un archivo `.env` en la raíz del proyecto y añade tu clave de API de TMDB (y otras si son necesarias):
+    ```env
+    NEXT_PUBLIC_TMDB_ACCESS_TOKEN=tu_api_key
+    GEMINI_API_KEY=tu_api_key
+    YOUTUBE_API_KEY=tu_api_key
+    ```
 
-### Prerequisites
+4.  **Ejecutar el servidor de desarrollo:**
+    ```bash
+    npm run dev
+    ```
 
-- Node.js 18.x or higher
-- npm or yarn package manager
-- OMDb API key (get free key at [OMDb API](http://www.omdbapi.com/apikey.aspx))
+5.  **Abrir en el navegador:**
+    Visita [http://localhost:3000](http://localhost:3000) para ver la aplicación.
 
-### Installation
+## Screenshots de la Aplicación
 
-1. **Clone or navigate to the project directory**
-   ```bash
-   cd omdb-movie-app
-   ```
+### Página de Inicio
+Una interfaz atractiva con tendencias y series populares.
+![Home Page](/assets/home_page.png)
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+### Búsqueda
+Buscador potente con filtros y resultados en tiempo real.
+![Search Page](/assets/search_page.png)
 
-3. **Configure environment variables**
-   
-   Create a `.env.local` file in the root directory:
-   ```bash
-   cp env.example .env.local
-   ```
-   
-   Edit `.env.local` and add your OMDb API key:
-   ```env
-   NEXT_PUBLIC_OMDB_API_KEY=your_actual_api_key_here
-   ```
+### Detalle de Película
+Información detallada, trailers y películas similares.
+![Movie Details](/assets/movie_details_page.png)
 
-4. **Run the development server**
-   ```bash
-   npm run dev
-   ```
+## Tecnologías Utilizadas
 
-5. **Open your browser**
-   
-   Navigate to [http://localhost:3000](http://localhost:3000)
+*   **Framework Principal:** [Next.js 16](https://nextjs.org/) (App Router)
+*   **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
+*   **Estilos:** [Tailwind CSS 4](https://tailwindcss.com/)
+*   **Animaciones:** [Framer Motion](https://www.framer.com/motion/)
+*   **Iconos:** [Lucide React](https://lucide.dev/)
+*   **IA:** [Google GenAI](https://ai.google.dev/) (para búsqueda inteligente)
+*   **Testing:** [Jest](https://jestjs.io/) y [React Testing Library](https://testing-library.com/)
 
-## 🏗️ Project Structure
+## Features Implementados
 
-```
-omdb-movie-app/
-├── src/
-│   ├── app/                    # Next.js App Router pages
-│   │   ├── layout.tsx         # Root layout with navigation
-│   │   ├── page.tsx           # Home page
-│   │   ├── search/
-│   │   │   └── page.tsx       # Search results page
-│   │   ├── movie/
-│   │   │   └── [id]/
-│   │   │       └── page.tsx   # Movie/Series detail page
-│   │   └── favorites/
-│   │       └── page.tsx       # Favorites page
-│   ├── components/            # Reusable React components
-│   │   ├── features/          # Feature-specific components
-│   │   │   ├── SearchBar.tsx
-│   │   │   ├── MovieCard.tsx
-│   │   │   └── FilterPanel.tsx
-│   │   ├── ui/                # Generic UI components
-│   │   │   ├── Pagination.tsx
-│   │   │   └── Loading.tsx
-│   │   └── layout/            # Layout components
-│   │       └── Navigation.tsx
-│   ├── lib/                   # Utilities and services
-│   │   ├── api/
-│   │   │   └── omdb.ts        # OMDb API client
-│   │   ├── hooks/
-│   │   │   └── index.ts       # Custom React hooks
-│   │   └── utils/
-│   │       └── favorites.ts   # LocalStorage utilities
-│   └── types/
-│       └── index.ts           # TypeScript type definitions
-├── public/                    # Static assets
-└── package.json
-```
+*   **Exploración de Contenido:** Visualización de películas en tendencia y series populares.
+*   **Búsqueda Avanzada:**
+    *   Búsqueda por título.
+    *   Filtros por tipo (película, serie, episodio), año y género.
+    *   **Smart Search (IA):** Búsqueda semántica impulsada por inteligencia artificial para encontrar películas basadas en descripciones o tramas.
+*   **Detalles Completos:**
+    *   Información detallada (sinopsis, director, actores, premios).
+    *   Reproducción de trailers (integración con YouTube).
+    *   Recomendaciones de películas similares.
+*   **Gestión de Favoritos:** Guarda tus títulos preferidos localmente.
+*   **Personalización:**
+    *   Modo Oscuro / Claro (Theme Toggle).
+*   **Experiencia de Usuario (UX):**
+    *   Animaciones fluidas (transiciones de página, hover effects).
+    *   Efecto de fondo interactivo ("Paper Membrane").
+    *   Diseño totalmente responsivo (Mobile First).
+    *   Skeleton loading para mejores tiempos de carga percibidos.
 
-## 🎨 Design Features
+## Pruebas
 
-- **Modern Glassmorphism** - Semi-transparent elements with backdrop blur
-- **Gradient Backgrounds** - Dynamic purple/pink gradients
-- **Smooth Animations** - Hover effects and transitions
-- **Custom Scrollbar** - Branded scrollbar design
-- **Responsive Grid** - Adapts from mobile to desktop
-- **Dark Theme** - Eye-friendly dark color palette
-- **Google Fonts** - Inter font family for clean typography
+Se han realizado pruebas unitarias para los componentes principales de la aplicación.
+### Correr todos los tests
+npm test
+### Correr tests en modo watch (útil durante desarrollo)
+npm run test:watch
+### Generar reporte de cobertura
+npm run test:coverage
 
-## 🛠️ Built With
+## Contribución
 
-- **[Next.js 14+](https://nextjs.org/)** - React framework with App Router
-- **[TypeScript](https://www.typescriptlang.org/)** - Type-safe development
-- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
-- **[OMDb API](http://www.omdbapi.com/)** - Movie database API
-- **LocalStorage API** - Client-side data persistence
+Si encuentras algún error o tienes sugerencias para mejorar la aplicación, por favor, abre un issue en el repositorio.
 
-## 📝 Available Scripts
-
-```bash
-# Development server
-npm run dev
-
-# Production build
-npm run build
-
-# Start production server
-npm start
-
-# Lint code
-npm run lint
-
-# Type check
-npm run type-check
-```
-
-## 🔑 API Usage
-
-The application uses the OMDb API with the following endpoints:
-
-- **Search**: `/?s={query}&type={type}&y={year}&page={page}`
-- **Details**: `/?i={imdbID}&plot=full`
-
-API key is required and should be set in `.env.local`.
-
-## 🌐 Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-
-## 📄 License
-
-This project is open source and available under the MIT License.
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!
-
-## 👨‍💻 Author
-
-Built with ❤️ using Next.js and Tailwind CSS
-
----
-
-**Note**: This application requires an active internet connection to fetch movie data from the OMDb API.
-# Frontend-Hackathon-2025

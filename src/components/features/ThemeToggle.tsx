@@ -1,4 +1,3 @@
-// Theme Toggle Component
 'use client';
 
 import { Moon, Sun } from 'lucide-react';

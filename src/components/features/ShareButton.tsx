@@ -19,18 +19,16 @@ export default function ShareButton({ title, text }: ShareButtonProps) {
       url,
     };
 
-    // Try native share first (Mobile)
+    // Pruebe primero la función de compartir nativa (móvil)
     if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
       try {
         await navigator.share(shareData);
         return;
       } catch (err) {
         console.log('Error sharing:', err);
-        // Fallback to clipboard if user cancels or error occurs
       }
     }
 
-    // Fallback to Clipboard (Desktop)
     try {
       await navigator.clipboard.writeText(url);
       showToast('¡Enlace copiado al portapapeles!', 'success');

@@ -44,7 +44,6 @@ export async function getSmartRecommendations(userDescription: string): Promise<
 
     const text = response.text;
 
-    // Clean up if needed, though responseMimeType should help
     const cleanedText = text ? text.replace(/```json/g, '').replace(/```/g, '').trim() : '[]';
 
     try {

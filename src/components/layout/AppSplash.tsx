@@ -7,10 +7,9 @@ export default function AppSplash() {
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-    // Hide after 1 second
     const timer = setTimeout(() => {
       setShowSplash(false);
-    }, 1600);
+    }, 1500);
 
     return () => clearTimeout(timer);
   }, []);

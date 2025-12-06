@@ -25,7 +25,6 @@ export default function SmartSearchPage() {
     setResults([]);
 
     try {
-      // 1. Get recommendations from Gemini
       const titles = await getSmartRecommendations(description);
 
       if (titles.length === 0) {
@@ -34,16 +33,14 @@ export default function SmartSearchPage() {
         return;
       }
 
-      // 2. Search for each title in TMDB
+      // 2. Busca cada título en TMDB
       const moviePromises = titles.map(async (title) => {
         const searchResult = await searchTMDB(title);
-        // Return the first result if found
         return searchResult.Search && searchResult.Search.length > 0 ? searchResult.Search[0] : null;
       });
 
       const movies = await Promise.all(moviePromises);
 
-      // Filter out nulls
       const validMovies = movies.filter((movie): movie is Movie => movie !== null);
 
       setResults(validMovies);

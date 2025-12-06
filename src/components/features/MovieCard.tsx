@@ -1,5 +1,3 @@
-// MovieCard Component
-
 'use client';
 
 import { Movie } from '@/types';
@@ -126,5 +124,4 @@ function MovieCard({ movie, variant = 'grid' }: MovieCardProps) {
   );
 }
 
-// Memoize to prevent re-renders when props don't change
 export default memo(MovieCard);

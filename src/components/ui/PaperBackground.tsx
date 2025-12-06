@@ -16,7 +16,6 @@ function PaperBackground({ className, style, children, ...props }: PaperBackgrou
   const animationFrameRef = useRef<number | undefined>(undefined);
   const particlesRef = useRef<{ x: number; y: number; baseX: number; baseY: number; color: string; draw: (ctx: CanvasRenderingContext2D, mouseX: number, mouseY: number) => void }[]>([]);
 
-  // Motion values for drag (translation of the whole container)
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -50,7 +49,7 @@ function PaperBackground({ className, style, children, ...props }: PaperBackgrou
       }
 
       draw(ctx: CanvasRenderingContext2D, mouseX: number, mouseY: number) {
-        // Calculate distance to mouse
+        // Calcular la distancia al ratón
         const dx = mouseX - this.x;
         const dy = mouseY - this.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
@@ -60,7 +59,7 @@ function PaperBackground({ className, style, children, ...props }: PaperBackgrou
 
         if (distance < interactionRadius) {
           const force = (interactionRadius - distance) / interactionRadius;
-          // "Rise" effect: move up (negative Y) and scale up
+          // "Ascenso": subir (Y negativo) y escalar hacia arriba
           lift = -force * liftFactor;
           scale = 1 + force * 1.5;
         }
@@ -76,7 +75,7 @@ function PaperBackground({ className, style, children, ...props }: PaperBackgrou
       const width = container.offsetWidth;
       const height = container.offsetHeight;
 
-      // Handle High DPI
+      // Manejar DPI altos
       const dpr = window.devicePixelRatio || 1;
       canvas.width = width * dpr;
       canvas.height = height * dpr;
@@ -86,14 +85,12 @@ function PaperBackground({ className, style, children, ...props }: PaperBackgrou
 
       particlesRef.current = [];
 
-      // Grid 1: Cyan
       for (let i = 0; i < width; i += spacing) {
         for (let j = 0; j < height; j += spacing) {
           particlesRef.current.push(new Particle(i, j, 'rgba(6, 182, 212, 0.2)'));
         }
       }
 
-      // Grid 2: Pink (Offset)
       for (let i = 6; i < width; i += spacing) {
         for (let j = 6; j < height; j += spacing) {
           particlesRef.current.push(new Particle(i, j, 'rgba(236, 72, 153, 0.2)'));
@@ -104,7 +101,6 @@ function PaperBackground({ className, style, children, ...props }: PaperBackgrou
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Get mouse position relative to canvas
       const rect = canvas.getBoundingClientRect();
       const relativeMouseX = mouseRef.current.x - rect.left;
       const relativeMouseY = mouseRef.current.y - rect.top;
@@ -156,7 +152,6 @@ function PaperBackground({ className, style, children, ...props }: PaperBackgrou
           ...style,
           x,
           y,
-          // Removed rotateX/rotateY to stop the whole plane from tilting
         }}
         drag
         dragElastic={0.2}
@@ -164,7 +159,6 @@ function PaperBackground({ className, style, children, ...props }: PaperBackgrou
         whileTap={{ cursor: 'grabbing' }}
         transition={{ type: 'spring', stiffness: 200, damping: 20 }}
       >
-        {/* Canvas replaces the CSS background */}
         <canvas
           ref={canvasRef}
           className="absolute inset-0 w-full h-full pointer-events-none rounded-3xl"
@@ -178,5 +172,4 @@ function PaperBackground({ className, style, children, ...props }: PaperBackgrou
   );
 }
 
-// Memoize to prevent unnecessary re-renders
 export default memo(PaperBackground);
