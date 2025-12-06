@@ -13,8 +13,7 @@ export interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  // Initialize state lazily to avoid hydration mismatch warning
-  // We use a function to check localStorage only on the client
+  // estado de forma diferida para evitar la advertencia de desajuste de hidratación
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('theme') as Theme;
@@ -23,7 +22,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     return 'dark';
   });
 
-  // Effect to sync DOM with theme state
+  // Effect para sincronizar el DOM con el estado del tema
   useEffect(() => {
     const root = window.document.documentElement;
     if (theme === 'dark') {
@@ -40,7 +39,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {/* Suppress hydration warning because server renders 'dark' but client might render 'light' */}
       <div suppressHydrationWarning>
         {children}
       </div>

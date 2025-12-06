@@ -1,5 +1,3 @@
-// TrailerPlayer Component
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -41,7 +39,6 @@ export default function TrailerPlayer({ title, year }: TrailerPlayerProps) {
     );
   }
 
-  // Fallback to search list if no specific video ID found or API fails
   const searchQuery = encodeURIComponent(`${title} ${year} official trailer`);
   const src = videoId
     ? `https://www.youtube.com/embed/${videoId}`

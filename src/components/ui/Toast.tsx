@@ -14,7 +14,7 @@ export default function Toast({ message, type = 'info', onClose }: ToastProps) {
 
   const handleClose = () => {
     setIsExiting(true);
-    setTimeout(onClose, 300); // Wait for animation
+    setTimeout(onClose, 300);
   };
 
   const getIcon = () => {

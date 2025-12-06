@@ -1,5 +1,3 @@
-// Pagination Component
-
 'use client';
 
 interface PaginationProps {
@@ -27,14 +25,11 @@ export default function Pagination({
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
 
-    // Always show first page
     pages.push(1);
 
     if (currentPage > 3) {
       pages.push('...');
     }
-
-    // Show pages around current page
     const start = Math.max(2, currentPage - 1);
     const end = Math.min(totalPages - 1, currentPage + 1);
 
@@ -46,7 +41,6 @@ export default function Pagination({
       pages.push('...');
     }
 
-    // Always show last page
     if (totalPages > 1) {
       pages.push(totalPages);
     }

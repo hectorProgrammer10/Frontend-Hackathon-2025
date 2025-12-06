@@ -1,5 +1,3 @@
-// Search Results Page
-
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -28,11 +26,7 @@ function SearchContent() {
 
   const { results, loading, error, search } = useMovieSearch();
 
-  // Use ref to track if we're currently filtering to avoid race conditions
-
-
   useEffect(() => {
-    // Initial search if query OR type is present
     if (initialQuery || initialType) {
       search(initialQuery, filters);
     }
@@ -40,7 +34,6 @@ function SearchContent() {
   }, []);
 
   useEffect(() => {
-    // Trigger search when filters change, allowing empty query if filters are active
     const hasFilters = filters.type || filters.year;
     if (query || hasFilters || (filters.page || 1) > 1) {
       search(query, filters);
@@ -48,7 +41,7 @@ function SearchContent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Only trigger on specific filter changes
   }, [filters.type, filters.year, filters.page]);
 
-  // Update filtered results when search results change
+  // Actualizar los resultados filtrados cuando cambian los resultados de búsquedae
   useEffect(() => {
     if (results?.Search) {
       setFilteredResults(results.Search);
@@ -91,7 +84,6 @@ function SearchContent() {
 
           {/* Main Content */}
           <div className="flex-1">
-            {/* View Toggle & Results Count */}
             {results && results.Search && results.Search.length > 0 && (
               <div className="flex items-center justify-between mb-6">
                 <p className="text-muted">
@@ -138,7 +130,6 @@ function SearchContent() {
               />
             )}
 
-            {/* No Search Yet */}
             {!loading && !query && !isBrowsing && !results && (
               <EmptyState
                 title="Comienza tu Búsqueda"
@@ -146,7 +137,7 @@ function SearchContent() {
               />
             )}
 
-            {/* Results Grid/List */}
+            {/* Resultadoss Grid/List */}
             {!loading && filteredResults && filteredResults.length > 0 && (
               <>
                 {viewMode === 'grid' ? (
@@ -163,7 +154,7 @@ function SearchContent() {
                   </div>
                 )}
 
-                {/* Pagination */}
+
                 <Pagination
                   currentPage={filters.page || 1}
                   totalResults={parseInt(results?.totalResults || '0')}

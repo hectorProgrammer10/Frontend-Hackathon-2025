@@ -11,7 +11,7 @@ import dynamic from 'next/dynamic';
 import ShareButton from '@/components/features/ShareButton';
 import { Circle, Heart, Star, Youtube } from 'lucide-react';
 
-// Lazy load heavy components
+// Lazy carga de componentes pesados
 const TrailerPlayer = dynamic(() => import('@/components/features/TrailerPlayer'), {
   loading: () => <div className="h-64 bg-card animate-pulse rounded-xl" />,
 });
@@ -47,7 +47,7 @@ export default function MovieDetailPage() {
 
   return (
     <div className="min-h-screen">
-      {/* Back Button */}
+      {/* volver */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <Link
           href="/search"
@@ -56,7 +56,7 @@ export default function MovieDetailPage() {
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
-          Back to Search
+          Volver
         </Link>
       </div>
 
@@ -140,7 +140,7 @@ export default function MovieDetailPage() {
 
             {/* Plot */}
             <div className="bg-card backdrop-blur-sm rounded-2xl p-6 border border-border">
-              <h2 className="text-2xl font-bold text-foreground mb-4">Plot</h2>
+              <h2 className="text-2xl font-bold text-foreground mb-4">Trama</h2>
               <p className="text-muted text-lg leading-relaxed">{movie.Plot}</p>
             </div>
 
@@ -148,7 +148,7 @@ export default function MovieDetailPage() {
             <div className="grid md:grid-cols-2 gap-6">
               {movie.Genre && movie.Genre !== 'N/A' && (
                 <div className="bg-card backdrop-blur-sm rounded-xl p-6 border border-border">
-                  <h3 className="text-muted text-sm font-semibold mb-2">Genre</h3>
+                  <h3 className="text-muted text-sm font-semibold mb-2">Género</h3>
                   <p className="text-foreground text-lg">{movie.Genre}</p>
                 </div>
               )}
@@ -162,35 +162,35 @@ export default function MovieDetailPage() {
 
               {movie.Writer && movie.Writer !== 'N/A' && (
                 <div className="bg-card backdrop-blur-sm rounded-xl p-6 border border-border">
-                  <h3 className="text-muted text-sm font-semibold mb-2">Writer</h3>
+                  <h3 className="text-muted text-sm font-semibold mb-2">Escritores</h3>
                   <p className="text-foreground text-lg">{movie.Writer}</p>
                 </div>
               )}
 
               {movie.Actors && movie.Actors !== 'N/A' && (
                 <div className="bg-card backdrop-blur-sm rounded-xl p-6 border border-border">
-                  <h3 className="text-muted text-sm font-semibold mb-2">Cast</h3>
+                  <h3 className="text-muted text-sm font-semibold mb-2">Actores</h3>
                   <p className="text-foreground text-lg">{movie.Actors}</p>
                 </div>
               )}
 
               {movie.Language && movie.Language !== 'N/A' && (
                 <div className="bg-card backdrop-blur-sm rounded-xl p-6 border border-border">
-                  <h3 className="text-muted text-sm font-semibold mb-2">Language</h3>
+                  <h3 className="text-muted text-sm font-semibold mb-2">Idioma</h3>
                   <p className="text-foreground text-lg">{movie.Language}</p>
                 </div>
               )}
 
               {movie.Country && movie.Country !== 'N/A' && (
                 <div className="bg-card backdrop-blur-sm rounded-xl p-6 border border-border">
-                  <h3 className="text-muted text-sm font-semibold mb-2">Country</h3>
+                  <h3 className="text-muted text-sm font-semibold mb-2">Pais</h3>
                   <p className="text-foreground text-lg">{movie.Country}</p>
                 </div>
               )}
 
               {movie.Awards && movie.Awards !== 'N/A' && (
                 <div className="bg-card backdrop-blur-sm rounded-xl p-6 border border-border md:col-span-2">
-                  <h3 className="text-muted text-sm font-semibold mb-2">Awards</h3>
+                  <h3 className="text-muted text-sm font-semibold mb-2">Premios</h3>
                   <p className="text-foreground text-lg">{movie.Awards}</p>
                 </div>
               )}
@@ -199,7 +199,7 @@ export default function MovieDetailPage() {
             {/* Additional Ratings */}
             {movie.Ratings && movie.Ratings.length > 0 && (
               <div className="bg-card backdrop-blur-sm rounded-2xl p-6 border border-border">
-                <h2 className="text-2xl font-bold text-foreground mb-4">Other Ratings</h2>
+                <h2 className="text-2xl font-bold text-foreground mb-4">Otras Calificaciones</h2>
                 <div className="grid md:grid-cols-3 gap-4">
                   {movie.Ratings.map((rating, index) => (
                     <div key={index} className="text-center p-4 bg-card rounded-xl">
@@ -214,7 +214,7 @@ export default function MovieDetailPage() {
             {/* Trailer Section */}
             <div className="space-y-4 z-10">
               <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
-                <span className="text-3xl"><Youtube size={28}></Youtube></span> Official Trailer
+                <span className="text-3xl"><Youtube size={28}></Youtube></span> Trailer Oficial
               </h2>
               <TrailerPlayer title={movie.Title} year={movie.Year} />
             </div>

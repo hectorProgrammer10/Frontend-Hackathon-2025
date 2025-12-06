@@ -41,8 +41,7 @@ const GENRE_MAP: { [key: string]: number } = {
 };
 
 /**
- * Fetch trending movies from TMDB
- * Using the /trending/movie/week endpoint
+ * Uso del /trending/movie/week endpoint
  */
 export async function getTrendingMoviesFromTMDB(): Promise<Movie[]> {
   try {
@@ -60,7 +59,7 @@ export async function getTrendingMoviesFromTMDB(): Promise<Movie[]> {
 
     const data: TMDBResponse<TMDBMovie> = await response.json();
 
-    // Convert TMDB movies to our Movie format and limit to 10 results
+    // Convierte películas TMDB a formato de película y limita a 10 resultados
     return data.results.slice(0, 10).map(convertTMDBMovieToMovie);
   } catch (error) {
     console.error('Error fetching trending movies from TMDB:', error);
@@ -68,10 +67,7 @@ export async function getTrendingMoviesFromTMDB(): Promise<Movie[]> {
   }
 }
 
-/**
- * Fetch popular TV series from TMDB
- * Using the /tv/popular endpoint
- */
+
 export async function getPopularSeriesFromTMDB(): Promise<Movie[]> {
   try {
     const response = await fetch(`${BASE_URL}/tv/popular`, {
@@ -88,7 +84,6 @@ export async function getPopularSeriesFromTMDB(): Promise<Movie[]> {
 
     const data: TMDBResponse<TMDBTVShow> = await response.json();
 
-    // Convert TMDB TV shows to our Movie format and limit to 10 results
     return data.results.slice(0, 10).map(convertTMDBTVShowToMovie);
   } catch (error) {
     console.error('Error fetching popular series from TMDB:', error);
@@ -96,19 +91,15 @@ export async function getPopularSeriesFromTMDB(): Promise<Movie[]> {
   }
 }
 
-/**
- * Search for movies and TV shows using TMDB multi-search
- * Uses discover endpoint ONLY when browsing (no query) for better performance
- * When query is present, uses search/multi and filters in-memory to ensure accurate total counts
- */
+
 export async function searchTMDB(query: string, filters: Filters = {}): Promise<SearchResponse> {
   try {
-    // 1. BROWSING MODE: No query, just filters -> Use /discover
+    // 1. modo busqueda: No query, solo filtros -> Use /discover
     if (!query.trim() && (filters.genre || filters.minRating || filters.type)) {
       return await discoverWithFilters(query, filters);
     }
 
-    // 2. SEARCH MODE: Query present -> Use /search/multi
+    // 2. Query presente -> Use /search/multi
     const params = new URLSearchParams({
       query: query,
       page: (filters.page || 1).toString(),
@@ -132,32 +123,29 @@ export async function searchTMDB(query: string, filters: Filters = {}): Promise<
 
     const data: TMDBResponse<TMDBMultiSearchResult> = await response.json();
 
-    // Filter and convert results
+    // Filtro y convertir resultados
     let results = data.results
       .filter(item => item.media_type === 'movie' || item.media_type === 'tv')
       .map(convertMultiSearchResultToMovie);
 
-    // Apply in-memory filtering for search results
-    // This is necessary because /search/multi doesn't support complex filters
-    // and /discover doesn't support text search.
+    // Aplicar filtrado en memoria para los resultados de búsqueda
+    // Esto es necesario porque /search/multi no admite filtros complejos
+    // y /discover no admite la búsqueda de texto.
     if (filters.genre || filters.minRating || filters.type) {
-      // We need to filter based on the raw data before conversion if possible, 
-      // but our convert function drops genre_ids.
-      // However, we can fetch details if needed, or rely on what we have.
-      // TMDB search results DO include genre_ids and vote_average.
+
 
       const rawFiltered = data.results.filter(item => {
         if (item.media_type !== 'movie' && item.media_type !== 'tv') return false;
 
         let pass = true;
 
-        // Filter by Type
+        // Filter Type
         if (filters.type) {
           const itemType = item.media_type === 'movie' ? 'movie' : 'series';
           if (itemType !== filters.type) pass = false;
         }
 
-        // Filter by Genre
+        // Filter Genre
         if (filters.genre && pass) {
           const normalizedGenre = filters.genre.charAt(0).toUpperCase() + filters.genre.slice(1).toLowerCase();
           const targetGenreId = GENRE_MAP[normalizedGenre] || GENRE_MAP[filters.genre];
@@ -166,7 +154,7 @@ export async function searchTMDB(query: string, filters: Filters = {}): Promise<
           }
         }
 
-        // Filter by Rating
+        // Filter Rating
         if (filters.minRating && pass) {
           if (item.vote_average) {
             pass = item.vote_average >= filters.minRating;
@@ -180,19 +168,9 @@ export async function searchTMDB(query: string, filters: Filters = {}): Promise<
 
       results = rawFiltered.map(convertMultiSearchResultToMovie);
 
-      // Update total results to reflect the filtered count on this page
-      // Note: This is an approximation. We can't know the total filtered count across all pages
-      // without fetching them all. But showing the count of matches on this page 
-      // is better than showing the global total.
-      // Ideally, we'd say "Found X results on this page".
-      // For now, we'll just return the length of filtered results if it's small, 
-      // or keep the original if we didn't filter anything.
 
       if (results.length < data.results.length) {
-        // If we filtered out items, the total count from API is misleading for the user.
-        // We'll set it to the number of results we found on this page, 
-        // effectively "hiding" pages that might have matches but we can't see.
-        // This is a trade-off for not having a true search+filter API.
+
         return {
           Search: results,
           totalResults: results.length.toString(),
@@ -218,7 +196,7 @@ export async function searchTMDB(query: string, filters: Filters = {}): Promise<
 }
 
 /**
- * Discover movies/TV with filters using TMDB discover endpoint
+ * Discover movies/TV 
  */
 async function discoverWithFilters(query: string, filters: Filters): Promise<SearchResponse> {
   try {
@@ -227,13 +205,13 @@ async function discoverWithFilters(query: string, filters: Filters): Promise<Sea
 
     const promises: Promise<TMDBResponse<TMDBMovie> | TMDBResponse<TMDBTVShow>>[] = [];
 
-    // Build discover parameters
+    // discover parameters
     const buildParams = () => {
       const params = new URLSearchParams({
         page: (filters.page || 1).toString(),
       });
 
-      // Add genre filter
+      // genre filter
       if (filters.genre) {
         // Normalize genre to Title Case to match map keys (e.g. "action" -> "Action")
         const normalizedGenre = filters.genre.charAt(0).toUpperCase() + filters.genre.slice(1).toLowerCase();
@@ -244,7 +222,7 @@ async function discoverWithFilters(query: string, filters: Filters): Promise<Sea
         }
       }
 
-      // Add rating filter
+      // rating filter
       if (filters.minRating) {
         params.append('vote_average.gte', filters.minRating.toString());
         params.append('vote_count.gte', '100'); // Minimum votes for reliability
@@ -253,7 +231,7 @@ async function discoverWithFilters(query: string, filters: Filters): Promise<Sea
       return params;
     };
 
-    // Fetch movies if needed
+    // Obtener películas si es necesario
     if (isMovie) {
       const params = buildParams();
       promises.push(
@@ -266,7 +244,6 @@ async function discoverWithFilters(query: string, filters: Filters): Promise<Sea
       );
     }
 
-    // Fetch TV shows if needed
     if (isSeries) {
       const params = buildParams();
       promises.push(
@@ -281,14 +258,11 @@ async function discoverWithFilters(query: string, filters: Filters): Promise<Sea
 
     const responses = await Promise.all(promises);
 
-    // Combine and convert results
+    // Combina y convierte resultados
     let allResults: Movie[] = [];
     let totalResults = 0;
 
     responses.forEach((data, index) => {
-      // Determine if this response is movie or tv
-      // If we fetched both, index 0 is movie, 1 is tv
-      // If we fetched only one, check isMovie/isSeries flags
       let isMovieData = false;
       if (isMovie && isSeries) {
         isMovieData = index === 0;
@@ -307,9 +281,6 @@ async function discoverWithFilters(query: string, filters: Filters): Promise<Sea
       totalResults += data.total_results;
     });
 
-    // Filter by query text if provided (client-side filtering of discovered results)
-    // Note: TMDB discover doesn't support text query + filters easily without advanced search
-    // So we discover by filters first, then filter by title if needed
     if (query.trim()) {
       const lowerQuery = query.toLowerCase();
       allResults = allResults.filter(movie =>
@@ -333,9 +304,6 @@ async function discoverWithFilters(query: string, filters: Filters): Promise<Sea
   }
 }
 
-/**
- * Get detailed information about a movie from TMDB
- */
 export async function getMovieDetailsTMDB(tmdbId: number): Promise<MovieDetail | null> {
   try {
     const response = await fetch(`${BASE_URL}/movie/${tmdbId}`, {
@@ -357,9 +325,7 @@ export async function getMovieDetailsTMDB(tmdbId: number): Promise<MovieDetail |
   }
 }
 
-/**
- * Get detailed information about a TV show from TMDB
- */
+
 export async function getTVShowDetailsTMDB(tmdbId: number): Promise<MovieDetail | null> {
   try {
     const response = await fetch(`${BASE_URL}/tv/${tmdbId}`, {
@@ -381,9 +347,7 @@ export async function getTVShowDetailsTMDB(tmdbId: number): Promise<MovieDetail 
   }
 }
 
-/**
- * Get similar movies or TV shows
- */
+
 export async function getSimilarContentTMDB(tmdbId: number, type: 'movie' | 'series'): Promise<Movie[]> {
   try {
     const endpoint = type === 'movie' ? 'movie' : 'tv';
@@ -413,10 +377,7 @@ export async function getSimilarContentTMDB(tmdbId: number, type: 'movie' | 'ser
   }
 }
 
-/**
- * Extract TMDB ID and type from our custom ID format
- * Format: tmdb-movie-123 or tmdb-tv-456
- */
+
 export function parseTMDBId(customId: string): { id: number; type: 'movie' | 'tv' } | null {
   const match = customId.match(/^tmdb-(movie|tv)-(\d+)$/);
   if (!match) return null;
@@ -427,9 +388,7 @@ export function parseTMDBId(customId: string): { id: number; type: 'movie' | 'tv
   };
 }
 
-/**
- * Find TMDB ID from IMDb ID
- */
+
 export async function findTMDBIdFromIMDb(imdbId: string): Promise<{ id: number; type: 'movie' | 'tv' } | null> {
   try {
     const response = await fetch(`${BASE_URL}/find/${imdbId}?external_source=imdb_id`, {
@@ -458,11 +417,9 @@ export async function findTMDBIdFromIMDb(imdbId: string): Promise<{ id: number; 
   }
 }
 
-// ==== CONVERSION UTILITIES ====
+//  UTILIDADES DE CONVERSIÓN 
 
-/**
- * Convert TMDB movie format to our app's Movie interface
- */
+
 function convertTMDBMovieToMovie(tmdbMovie: TMDBMovie): Movie {
   return {
     imdbID: `tmdb-movie-${tmdbMovie.id}`,
@@ -475,9 +432,7 @@ function convertTMDBMovieToMovie(tmdbMovie: TMDBMovie): Movie {
   };
 }
 
-/**
- * Convert TMDB TV show format to our app's Movie interface
- */
+
 function convertTMDBTVShowToMovie(tmdbShow: TMDBTVShow): Movie {
   return {
     imdbID: `tmdb-tv-${tmdbShow.id}`,
@@ -490,9 +445,7 @@ function convertTMDBTVShowToMovie(tmdbShow: TMDBTVShow): Movie {
   };
 }
 
-/**
- * Convert TMDB multi-search result to our app's Movie interface
- */
+
 function convertMultiSearchResultToMovie(result: TMDBMultiSearchResult): Movie {
   const isMovie = result.media_type === 'movie';
 
@@ -509,13 +462,9 @@ function convertMultiSearchResultToMovie(result: TMDBMultiSearchResult): Movie {
   };
 }
 
-/**
- * Convert TMDB movie detail to our app's MovieDetail interface
- */
+
 function convertTMDBMovieDetailToMovieDetail(tmdb: TMDBMovieDetail): MovieDetail {
   return {
-    // ALWAYS use our custom ID format for internal routing/consistency
-    // We ignore the actual IMDb ID for the ID field to ensure favorites/links work consistently
     imdbID: `tmdb-movie-${tmdb.id}`,
     Title: tmdb.title,
     Year: tmdb.release_date ? tmdb.release_date.split('-')[0] : 'N/A',
@@ -547,9 +496,7 @@ function convertTMDBMovieDetailToMovieDetail(tmdb: TMDBMovieDetail): MovieDetail
   };
 }
 
-/**
- * Convert TMDB TV show detail to our app's MovieDetail interface
- */
+
 function convertTMDBTVShowDetailToMovieDetail(tmdb: TMDBTVShowDetail): MovieDetail {
   return {
     imdbID: `tmdb-tv-${tmdb.id}`,

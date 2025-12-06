@@ -1,4 +1,4 @@
-// Movie and Series type definitions for OMDb API
+
 
 export interface Movie {
   imdbID: string;
@@ -159,12 +159,12 @@ export interface TMDBTVShowDetail {
   episode_run_time: number[];
 }
 
-// Multi-search result (can be movie, TV, or person)
+
 export interface TMDBMultiSearchResult {
   id: number;
   media_type: 'movie' | 'tv' | 'person';
-  title?: string; // for movies
-  name?: string; // for TV shows and persons
+  title?: string;
+  name?: string;
   original_title?: string;
   original_name?: string;
   overview?: string;

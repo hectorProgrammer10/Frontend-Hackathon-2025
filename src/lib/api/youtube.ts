@@ -4,9 +4,8 @@ const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 const BASE_URL = 'https://www.googleapis.com/youtube/v3';
 
 /**
- * Search for a trailer on YouTube
- * @param query The search query (e.g. "Inception 2010 official trailer")
- * @returns The video ID of the first result, or null if not found
+ * @param query La consulta de búsqueda(e.g. "Inception 2010 official trailer")
+ * @returns El ID del vídeo del primer resultado, o nulo si no se encuentra
  */
 export async function searchYouTubeTrailer(query: string): Promise<string | null> {
   if (!YOUTUBE_API_KEY) {
@@ -21,7 +20,7 @@ export async function searchYouTubeTrailer(query: string): Promise<string | null
       type: 'video',
       key: YOUTUBE_API_KEY,
       maxResults: '1',
-      videoEmbeddable: 'true', // Ensure video can be embedded
+      videoEmbeddable: 'true', // Se asegura de que el vídeo se pueda incrustar
     });
 
     const response = await fetch(`${BASE_URL}/search?${params.toString()}`);

@@ -1,5 +1,4 @@
 // Custom React Hooks
-
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -8,9 +7,7 @@ import { searchMovies, getMovieDetails } from '@/lib/api/omdb';
 import { getFavorites, toggleFavorite as toggleFav, isFavorite } from '@/lib/utils/favorites';
 import { useToast } from '@/lib/context/ToastContext';
 
-/**
- * Hook for searching movies
- */
+
 export function useMovieSearch() {
   const [results, setResults] = useState<SearchResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -18,7 +15,6 @@ export function useMovieSearch() {
   const { showToast } = useToast();
 
   const search = useCallback(async (query: string, filters?: Filters) => {
-    // Allow search if query is present OR if we have filters (browsing mode)
     const hasFilters = filters && (filters.type || filters.genre || filters.minRating);
 
     if (!query.trim() && !hasFilters) {
@@ -36,7 +32,6 @@ export function useMovieSearch() {
       if (data.Response === 'False') {
         let errorMessage = data.Error || 'No se encontraron resultados';
 
-        // Translate common API errors
         if (errorMessage === 'Movie not found!') errorMessage = 'No se encontraron resultados';
         if (errorMessage === 'Too many results.') errorMessage = 'Demasiados resultados, intenta ser más específico';
         if (errorMessage === 'Incorrect IMDb ID.') errorMessage = 'ID de IMDb incorrecto';
@@ -58,9 +53,6 @@ export function useMovieSearch() {
   return { results, loading, error, search };
 }
 
-/**
- * Hook for fetching movie details
- */
 export function useMovieDetails(id: string | null) {
   const [movie, setMovie] = useState<MovieDetail | null>(null);
   const [loading, setLoading] = useState(false);
@@ -99,9 +91,6 @@ export function useMovieDetails(id: string | null) {
   return { movie, loading, error };
 }
 
-/**
- * Hook for managing favorites
- */
 export function useFavorites() {
   const [favorites, setFavorites] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
@@ -116,7 +105,7 @@ export function useFavorites() {
 
     loadFavorites();
 
-    // Listen for storage changes from other tabs
+    // cambios de almacenamiento desde otras pestañas
     const handleStorageChange = () => {
       loadFavorites();
     };

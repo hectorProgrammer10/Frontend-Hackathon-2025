@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState, useMemo } from 'react';
 
-// Generate random points
 const POINTS_COUNT = 20;
 const CONNECTIONS_COUNT = 15;
 
@@ -20,7 +19,6 @@ interface Connection {
   delay: number;
 }
 
-// Helper function to generate points
 const generatePoints = (): Point[] => {
   const newPoints: Point[] = [];
   for (let i = 0; i < POINTS_COUNT; i++) {
@@ -33,7 +31,6 @@ const generatePoints = (): Point[] => {
   return newPoints;
 };
 
-// Helper function to generate connections
 const generateConnections = (points: Point[]): Connection[] => {
   const newConnections: Connection[] = [];
   for (let i = 0; i < CONNECTIONS_COUNT; i++) {
@@ -53,14 +50,13 @@ const generateConnections = (points: Point[]): Connection[] => {
 };
 
 export default function NeuralNetworkLoader() {
-  // Generate points and connections once using useMemo
+  // Generar puntos y conexiones una vez usando useMemo
   const points = useMemo(() => generatePoints(), []);
   const connections = useMemo(() => generateConnections(points), [points]);
 
   const [activePoint, setActivePoint] = useState<number | null>(null);
 
   useEffect(() => {
-    // Simulate "thinking" by activating random points
     const interval = setInterval(() => {
       setActivePoint(Math.floor(Math.random() * POINTS_COUNT));
     }, 500);
@@ -71,7 +67,7 @@ export default function NeuralNetworkLoader() {
   return (
     <div className="w-full h-64 relative overflow-hidden bg-transparent">
       <svg className="w-full h-full absolute inset-0">
-        {/* Connections */}
+        {/* conecciones */}
         {connections.map((conn) => (
           <motion.line
             key={conn.id}
@@ -95,7 +91,7 @@ export default function NeuralNetworkLoader() {
           />
         ))}
 
-        {/* Points */}
+        {/* puntos */}
         {points.map((point) => (
           <motion.circle
             key={point.id}

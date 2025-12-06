@@ -3,9 +3,7 @@ import { FavoriteItem, Movie } from '@/types';
 
 const FAVORITES_KEY = 'omdb_favorites';
 
-/**
- * Check if localStorage is available and accessible
- */
+
 function isStorageAvailable(): boolean {
   if (typeof window === 'undefined') return false;
 
@@ -15,15 +13,11 @@ function isStorageAvailable(): boolean {
     localStorage.removeItem(testKey);
     return true;
   } catch (e) {
-    // localStorage is not available (privacy mode, storage full, etc.)
     console.warn('localStorage is not available:', e);
     return false;
   }
 }
 
-/**
- * Get all favorites from localStorage
- */
 export function getFavorites(): FavoriteItem[] {
   if (!isStorageAvailable()) return [];
 
@@ -35,10 +29,6 @@ export function getFavorites(): FavoriteItem[] {
     return [];
   }
 }
-
-/**
- * Add a movie/series to favorites
- */
 export function addToFavorites(item: Movie): void {
   if (!isStorageAvailable()) return;
 
@@ -59,9 +49,6 @@ export function addToFavorites(item: Movie): void {
   }
 }
 
-/**
- * Remove a movie/series from favorites
- */
 export function removeFromFavorites(imdbID: string): void {
   if (!isStorageAvailable()) return;
 
@@ -74,9 +61,7 @@ export function removeFromFavorites(imdbID: string): void {
   }
 }
 
-/**
- * Check if an item is in favorites
- */
+
 export function isFavorite(imdbID: string): boolean {
   if (!isStorageAvailable()) return false;
 
@@ -89,9 +74,7 @@ export function isFavorite(imdbID: string): boolean {
   }
 }
 
-/**
- * Toggle favorite status
- */
+
 export function toggleFavorite(item: Movie): boolean {
   const favorite = isFavorite(item.imdbID);
 
