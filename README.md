@@ -1,4 +1,4 @@
-![iconoPage](/iconoPage.svg)
+![iconoPage](public/iconoPage.svg)
 # ComePelículas - TMDB Movie App
 
 Una aplicación moderna para explorar películas y series, construida con Next.js y la API de TMDB.
@@ -42,15 +42,15 @@ Sigue estos pasos para ejecutar el proyecto en tu entorno local:
 
 ### Página de Inicio
 Una interfaz atractiva con tendencias y series populares.
-![Home Page](/assets/home_page.png)
+![Home Page](public/assets/home_page.png)
 
 ### Búsqueda
 Buscador potente con filtros y resultados en tiempo real.
-![Search Page](/assets/search_page.png)
+![Search Page](public/assets/search_page.png)
 
 ### Detalle de Película
 Información detallada, trailers y películas similares.
-![Movie Details](/assets/movie_details_page.png)
+![Movie Details](public/assets/movie_details_page.png)
 
 ## Tecnologías Utilizadas
 
