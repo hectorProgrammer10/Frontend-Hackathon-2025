@@ -19,7 +19,7 @@ Sigue estos pasos para ejecutar el proyecto en tu entorno local:
 
 2.  **Instalar dependencias:**
     ```bash
-    npm install
+    pnpm install
     ```
 
 3.  **Configurar variables de entorno:**
@@ -32,7 +32,7 @@ Sigue estos pasos para ejecutar el proyecto en tu entorno local:
 
 4.  **Ejecutar el servidor de desarrollo:**
     ```bash
-    npm run dev
+    pnpm run dev
     ```
 
 5.  **Abrir en el navegador:**
@@ -86,11 +86,11 @@ Información detallada, trailers y películas similares.
 
 Se han realizado pruebas unitarias para los componentes principales de la aplicación.
 ### Correr todos los tests
-npm test
+pnpm test
 ### Correr tests en modo watch (útil durante desarrollo)
-npm run test:watch
+pnpm run test:watch
 ### Generar reporte de cobertura
-npm run test:coverage
+pnpm run test:coverage
 
 ## Contribución
 
